@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
-import { Odometer, HomeFilled, Plus, Edit, DataAnalysis, InfoFilled, ChatDotSquare, Search, Guide, OfficeBuilding, UserFilled } from '@element-plus/icons-vue'
+import { Odometer, HomeFilled, DataAnalysis, InfoFilled, ChatDotSquare, Search, Guide, OfficeBuilding, UserFilled } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()

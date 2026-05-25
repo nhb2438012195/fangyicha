@@ -79,15 +79,12 @@ public class PropertyController {
     @PostMapping
     @PreAuthorize("hasRole('DEVELOPER')")
     @Operation(summary = "创建房产", description = "开发商创建新的房产信息")
-    public Result<Void> createProperty(Authentication authentication, @Valid @RequestBody Property property) {
+    public Result<Property> createProperty(Authentication authentication, @Valid @RequestBody Property property) {
         Long developerId = (Long) authentication.getPrincipal();
-        boolean success = propertyService.createProperty(developerId, property);
-        if (success) {
-            activityLogService.log(developerId, Constants.ROLE_DEVELOPER, "CREATE", "Property",
-                    property.getId(), "创建房产: " + property.getPropertyName());
-            return Result.success();
-        }
-        return Result.error(500, "创建失败");
+        Property saved = propertyService.createProperty(developerId, property);
+        activityLogService.log(developerId, Constants.ROLE_DEVELOPER, "CREATE", "Property",
+                saved.getId(), "创建房产: " + saved.getPropertyName());
+        return Result.success(saved);
     }
 
     /**

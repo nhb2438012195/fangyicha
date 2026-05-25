@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { propertyApi } from '../../api/property'
-import { FLOOR_PLAN_TYPES, PROPERTY_STATUSES, DECORATION_TYPES } from '../../types'
+import { FLOOR_PLAN_TYPES, PROPERTY_STATUSES } from '../../types'
 import type { Property, PropertyQuery } from '../../types'
-import { Search, Refresh, Download } from '@element-plus/icons-vue'
+import { Search, Refresh, Download, Printer } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
+
+const route = useRoute()
+const router = useRouter()
 
 const loading = ref(false)
 const propertyList = ref<Property[]>([])
@@ -42,7 +48,15 @@ async function fetchProperties() {
 
 function handleSearch() {
   queryForm.page = 1
-  fetchProperties()
+  // 将搜索参数同步到 URL 查询字符串，支持分享和浏览器前进/后退
+  const query: Record<string, any> = {}
+  if (queryForm.keyword) query.keyword = queryForm.keyword
+  if (queryForm.location) query.location = queryForm.location
+  if (queryForm.floorPlanType) query.floorPlanType = queryForm.floorPlanType
+  if (queryForm.totalPriceMin) query.totalPriceMin = queryForm.totalPriceMin
+  if (queryForm.totalPriceMax) query.totalPriceMax = queryForm.totalPriceMax
+  if (queryForm.status) query.status = queryForm.status
+  router.push({ query }).then(() => fetchProperties())
 }
 
 function handleReset() {
@@ -52,7 +66,7 @@ function handleReset() {
   queryForm.totalPriceMin = undefined
   queryForm.totalPriceMax = undefined
   queryForm.status = '在售'
-  fetchProperties()
+  router.push({ query: {} }).then(() => fetchProperties())
 }
 
 function handlePageChange(page: number) {
@@ -87,25 +101,71 @@ function handlePrint() {
   window.print()
 }
 
-// 在初始化时从 localStorage 恢复上次查询
+/** PDF下载 */
+async function handleDownloadPdf() {
+  const element = document.querySelector('.result-card') as HTMLElement
+  if (!element) return
+  ElMessage.info('正在生成PDF...')
+  try {
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff'
+    })
+    const imgData = canvas.toDataURL('image/png')
+    const pdf = new jsPDF('p', 'mm', 'a4')
+    const imgWidth = 190
+    const imgHeight = (canvas.height * imgWidth) / canvas.width
+    let heightLeft = imgHeight
+    let position = 10
+
+    pdf.setFontSize(16)
+    pdf.text('房产查询报表', 105, 10, { align: 'center' })
+    pdf.setFontSize(10)
+    pdf.text('生成时间：' + new Date().toLocaleString(), 105, 18, { align: 'center' })
+
+    pdf.addImage(imgData, 'PNG', 10, position + 10, imgWidth, imgHeight)
+    heightLeft -= pdf.internal.pageSize.getHeight()
+
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight + 10
+      pdf.addPage()
+      pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight)
+      heightLeft -= pdf.internal.pageSize.getHeight()
+    }
+    pdf.save('房产查询报表_' + new Date().toISOString().slice(0, 10) + '.pdf')
+    ElMessage.success('PDF下载成功')
+  } catch (e) {
+    ElMessage.error('PDF生成失败')
+    console.error(e)
+  }
+}
+
+// 从 URL 查询参数或 localStorage 恢复查询条件
 onMounted(() => {
-  const saved = localStorage.getItem('lastQuery')
-  if (saved) {
-    try {
-      const parsed = JSON.parse(saved)
-      Object.assign(queryForm, parsed)
-    } catch { /* ignore */ }
+  const query = route.query
+  const hasUrlParams = query.keyword || query.location || query.floorPlanType
+
+  if (hasUrlParams) {
+    // 优先从 URL 恢复
+    if (query.keyword) queryForm.keyword = query.keyword as string
+    if (query.location) queryForm.location = query.location as string
+    if (query.floorPlanType) queryForm.floorPlanType = query.floorPlanType as string
+    if (query.totalPriceMin) queryForm.totalPriceMin = Number(query.totalPriceMin)
+    if (query.totalPriceMax) queryForm.totalPriceMax = Number(query.totalPriceMax)
+    if (query.status) queryForm.status = query.status as string
+  } else {
+    // 回退到 localStorage
+    const saved = localStorage.getItem('lastQuery')
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        Object.assign(queryForm, parsed)
+      } catch { /* ignore */ }
+    }
   }
   fetchProperties()
 })
-
-// 查询前保存到 localStorage
-function saveQueryState() {
-  const toSave = { ...queryForm }
-  delete toSave.page
-  delete toSave.pageSize
-  localStorage.setItem('lastQuery', JSON.stringify(toSave))
-}
 </script>
 
 <template>
@@ -171,7 +231,8 @@ function saveQueryState() {
     <el-card shadow="never" class="result-card">
       <div class="result-header">
         <span>查询结果</span>
-        <el-button :icon="Download" text @click="handlePrint">打印报表</el-button>
+        <el-button :icon="Printer" text @click="handlePrint">打印报表</el-button>
+        <el-button :icon="Download" text type="primary" @click="handleDownloadPdf">下载PDF</el-button>
       </div>
 
       <el-table

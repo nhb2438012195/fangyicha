@@ -12,8 +12,6 @@ const chartByType = ref<HTMLDivElement | null>(null)
 const chartByFloor = ref<HTMLDivElement | null>(null)
 
 /** 折线趋势颜色 */
-const COLORS = ['#1a73e8', '#34a853', '#f59e0b', '#ea4335', '#9334e6']
-
 onMounted(async () => {
   try {
     const [locationRes, typeRes, floorRes] = await Promise.all([
@@ -186,8 +184,7 @@ function showEmpty(container: HTMLDivElement) {
 }
 
 /** 导出图表为 PNG */
-function exportChart(chartRef: typeof chartByLocation) {
-  const el = chartRef.value
+function exportChart(el: HTMLElement | null) {
   if (!el) return
   const canvas = el.querySelector('canvas')
   if (canvas) {

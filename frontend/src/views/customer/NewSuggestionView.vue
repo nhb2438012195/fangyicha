@@ -5,13 +5,12 @@ import { ElMessage } from 'element-plus'
 import { suggestionApi } from '../../api/suggestion'
 import { developerApi } from '../../api/developer'
 import { FLOOR_PLAN_TYPES } from '../../types'
-import type { Developer, Suggestion } from '../../types'
+import type { Developer } from '../../types'
 
 const router = useRouter()
 const route = useRoute()
 const developerIdParam = Number(route.query.developerId)
 
-const loading = ref(false)
 const submitting = ref(false)
 const developerList = ref<Developer[]>([])
 const formRef = ref<any>(null)

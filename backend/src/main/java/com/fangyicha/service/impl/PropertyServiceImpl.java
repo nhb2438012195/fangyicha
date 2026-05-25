@@ -172,15 +172,15 @@ public class PropertyServiceImpl extends ServiceImpl<PropertyMapper, Property> i
 
     @Override
     @Transactional
-    public boolean createProperty(Long developerId, Property property) {
+    public Property createProperty(Long developerId, Property property) {
         property.setDeveloperId(developerId);
         calculateVacancyRate(property);
         if (property.getStatus() == null) {
             property.setStatus("在售");
         }
-        int result = propertyMapper.insert(property);
-        log.info("开发商{}创建房产: {}", developerId, property.getPropertyName());
-        return result > 0;
+        propertyMapper.insert(property);
+        log.info("开发商{}创建房产: {}, id={}", developerId, property.getPropertyName(), property.getId());
+        return property;
     }
 
     @Override

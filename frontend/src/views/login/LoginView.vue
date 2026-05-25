@@ -4,7 +4,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { authApi } from '../../api/auth'
 import { useAuthStore } from '../../stores/auth'
 import type { LoginRequest } from '../../types'
-import { User, Lock, Key } from '@element-plus/icons-vue'
+import { User, Lock } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -19,12 +19,6 @@ const loginForm = reactive<LoginRequest>({
 
 const loading = ref(false)
 const errorMessage = ref('')
-
-/** 登录角色选项 */
-const roleOptions = [
-  { value: 'developer', label: '开发商' },
-  { value: 'customer', label: '购房客户' }
-]
 
 /** 登录表单校验规则 */
 const rules = {

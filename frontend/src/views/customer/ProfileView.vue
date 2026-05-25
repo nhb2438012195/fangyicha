@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { customerApi } from '../../api/customer'
 import { INTENTION_OPTIONS, URGENCY_OPTIONS } from '../../types'

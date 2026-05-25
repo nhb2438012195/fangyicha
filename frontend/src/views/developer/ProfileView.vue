@@ -27,7 +27,7 @@ const rules = {
 async function loadProfile() {
   loading.value = true
   try {
-    const res = await developerApi.getById(0) // Use /me endpoint
+    await developerApi.getById(0) // Use /me endpoint
     // 试试用 auth/me
     const authRes = await (await import('../../api/auth')).authApi.getCurrentUser()
     const userData = authRes.data

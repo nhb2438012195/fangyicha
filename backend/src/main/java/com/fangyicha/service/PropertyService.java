@@ -25,8 +25,9 @@ public interface PropertyService extends IService<Property> {
 
     /**
      * 创建房产（自动计算空置率）
+     * @return 保存后的房产对象（含ID）
      */
-    boolean createProperty(Long developerId, Property property);
+    Property createProperty(Long developerId, Property property);
 
     /**
      * 更新房产（自动计算空置率）

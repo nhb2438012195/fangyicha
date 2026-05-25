@@ -3,7 +3,6 @@ import { ref, reactive, computed, watch, onMounted } from 'vue'
 import { propertyApi } from '../../api/property'
 import { FLOOR_PLAN_TYPES } from '../../types'
 import type { Property } from '../../types'
-import { Search } from '@element-plus/icons-vue'
 
 /** 步骤定义 */
 const steps = [
@@ -40,9 +39,6 @@ const canNext = computed(() => {
     default: return true
   }
 })
-
-/** 是否完成所有步骤 */
-const isFinished = computed(() => currentStep.value >= steps.length)
 
 /** 下一步 */
 function nextStep() {
