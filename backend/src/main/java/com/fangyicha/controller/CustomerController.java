@@ -2,9 +2,11 @@ package com.fangyicha.controller;
 
 import com.fangyicha.common.Constants;
 import com.fangyicha.common.Result;
+import com.fangyicha.dto.RecommendationDTO;
 import com.fangyicha.entity.Customer;
 import com.fangyicha.service.ActivityLogService;
 import com.fangyicha.service.CustomerService;
+import com.fangyicha.service.RecommendationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +28,14 @@ public class CustomerController {
 
     private final CustomerService customerService;
     private final ActivityLogService activityLogService;
+    private final RecommendationService recommendationService;
 
     public CustomerController(CustomerService customerService,
-                              ActivityLogService activityLogService) {
+                              ActivityLogService activityLogService,
+                              RecommendationService recommendationService) {
         this.customerService = customerService;
         this.activityLogService = activityLogService;
+        this.recommendationService = recommendationService;
     }
 
     /**
@@ -76,5 +81,17 @@ public class CustomerController {
         Long customerId = (Long) authentication.getPrincipal();
         Map<String, Object> stats = customerService.getDashboardStats(customerId);
         return Result.success(stats);
+    }
+
+    /**
+     * 获取个性化房产推荐
+     */
+    @GetMapping("/recommendations")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @Operation(summary = "房产推荐", description = "根据客户偏好区域和预算推荐房产，最多6条")
+    public Result<List<RecommendationDTO>> getRecommendations(Authentication authentication) {
+        Long customerId = (Long) authentication.getPrincipal();
+        List<RecommendationDTO> recommendations = recommendationService.getRecommendations(customerId);
+        return Result.success(recommendations);
     }
 }

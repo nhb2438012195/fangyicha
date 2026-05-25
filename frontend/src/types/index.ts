@@ -221,3 +221,33 @@ export const DECORATION_TYPES = ['毛坯', '简装', '精装', '豪装'] as cons
 export const URGENCY_OPTIONS = ['一个月内', '三个月内', '半年内', '一年内', '不限'] as const
 export const INTENTION_OPTIONS = ['自住', '投资', '改善', '学区', '养老'] as const
 export const SUGGESTION_STATUSES = ['待回复', '已回复', '已关闭'] as const
+
+/** 价格历史记录 */
+export interface PriceHistoryItem {
+  id: number
+  propertyId: number
+  recordDate: string
+  pricePerSqm: number
+  totalPrice: number
+  createdTime: string
+}
+
+/** 房产推荐项 */
+export interface RecommendationItem {
+  propertyId: number
+  propertyName: string
+  location: string
+  pricePerSqm: number
+  totalPrice: number
+  areaSqm: number
+  floorPlanType: string
+  decoration: string
+  imageUrls: string
+  developerName: string
+  reason: string
+}
+
+/** 房产详情（含开发商名称） */
+export interface PropertyDetail extends Property {
+  developerName: string
+}

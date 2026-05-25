@@ -3,10 +3,11 @@ package com.fangyicha.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fangyicha.common.Constants;
 import com.fangyicha.common.Result;
-import com.fangyicha.dto.PropertyQueryRequest;
+import com.fangyicha.dto.PropertyDetailDTO;
+import com.fangyicha.entity.Developer;
+import com.fangyicha.entity.PriceHistory;
 import com.fangyicha.entity.Property;
-import com.fangyicha.service.ActivityLogService;
-import com.fangyicha.service.PropertyService;
+import com.fangyicha.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -30,11 +31,17 @@ public class PropertyController {
 
     private final PropertyService propertyService;
     private final ActivityLogService activityLogService;
+    private final DeveloperService developerService;
+    private final PriceHistoryService priceHistoryService;
 
     public PropertyController(PropertyService propertyService,
-                              ActivityLogService activityLogService) {
+                              ActivityLogService activityLogService,
+                              DeveloperService developerService,
+                              PriceHistoryService priceHistoryService) {
         this.propertyService = propertyService;
         this.activityLogService = activityLogService;
+        this.developerService = developerService;
+        this.priceHistoryService = priceHistoryService;
     }
 
     /**
@@ -52,13 +59,20 @@ public class PropertyController {
      * 获取房产详情（公开）
      */
     @GetMapping("/{id}")
-    @Operation(summary = "房产详情", description = "根据ID获取房产详细信息")
-    public Result<Property> getProperty(@PathVariable Long id) {
+    @Operation(summary = "房产详情", description = "根据ID获取房产详细信息，包含开发商名称")
+    public Result<PropertyDetailDTO> getProperty(@PathVariable Long id) {
         Property property = propertyService.getById(id);
         if (property == null) {
             return Result.notFound("房产不存在");
         }
-        return Result.success(property);
+        PropertyDetailDTO dto = new PropertyDetailDTO();
+        org.springframework.beans.BeanUtils.copyProperties(property, dto);
+        // 填充开发商名称
+        Developer developer = developerService.getById(property.getDeveloperId());
+        if (developer != null) {
+            dto.setDeveloperName(developer.getCompanyName());
+        }
+        return Result.success(dto);
     }
 
     /**
@@ -121,6 +135,23 @@ public class PropertyController {
             return Result.success();
         }
         return Result.badRequest("删除失败，房产不存在或无权操作");
+    }
+
+    // ========== 价格历史接口 ==========
+
+    /**
+     * 获取房产价格历史（近24个月）
+     */
+    @GetMapping("/{id}/price-history")
+    @Operation(summary = "价格历史", description = "获取指定房产近24个月的价格走势数据")
+    public Result<List<PriceHistory>> getPriceHistory(@PathVariable Long id,
+                                                       @RequestParam(defaultValue = "24") int months) {
+        Property property = propertyService.getById(id);
+        if (property == null) {
+            return Result.notFound("房产不存在");
+        }
+        List<PriceHistory> history = priceHistoryService.getPriceHistory(id, months);
+        return Result.success(history);
     }
 
     // ========== 统计分析接口 ==========

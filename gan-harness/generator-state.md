@@ -1,68 +1,85 @@
-# Generator State — Iteration 001
+# Generator State — Iteration 002
 
-## What Was Built
-- 购房订单模块（后端+前端）
-- 房产详情页（含"立即购买"功能）
+## What Was Built (v1.4)
 
-## Backend Changes
-### 新增文件
-- **Entity**: `Order.java`, `OrderLog.java` (MyBatis-Plus entities)
-- **Mapper**: `OrderMapper.java`, `OrderLogMapper.java`
-- **Service**: `OrderService.java` (接口), `OrderServiceImpl.java` (实现)
-- **Controller**: `OrderController.java` (8个API端点)
-- **DB Tables**: `purchase_order`, `order_log` (MySQL, 含种子数据)
+### Sprint 1: Backend Infrastructure
+- Created `price_history` table schema in schema.sql
+- Created `PriceHistory.java` entity
+- Created `PriceHistoryMapper.java` with `selectByPropertyIdAndMonths` query
+- Created `PriceHistoryService.java` and `PriceHistoryServiceImpl.java`
+- Created `PropertyDetailDTO.java` (extends Property with developerName)
+- Created `RecommendationDTO.java` (with reason field)
+- Created `RecommendationServiceImpl.java` with location LIKE matching + budget sorting algorithm (max 6 results)
+- Added `GET /api/properties/{id}/price-history` endpoint to PropertyController
+- Modified `GET /api/properties/{id}` to return PropertyDetailDTO with developerName
+- Added `GET /api/customers/recommendations` endpoint to CustomerController
+- Updated DataInitializer to generate 24-month price history for all 120+ properties programmatically
 
-### 修改文件
-- `SecurityConfig.java`: 添加 `/api/orders/**` 认证规则
-- `CustomerServiceImpl.java`: 仪表盘增加 orderCount, pendingOrderCount
-- `DeveloperServiceImpl.java`: 仪表盘增加 orderCount, pendingOrderCount, paidOrderCount
-- `Constants.java`: 添加订单状态常量和实体类型常量
-- `data.sql`: 添加建表DDL和种子数据
+### Sprint 2: Frontend Detail Page Enhancement
+- Created `PropertyCarousel.vue` — Image carousel with thumbnail strip, 16:9 ratio, picsum.photos fallback
+- Created `PriceTrendChart.vue` — ECharts dual-axis line chart (单价/总价) with tooltip, dataZoom slider, area gradient
+- Created `PropertyLocation.vue` — Map placeholder with pin marker animation, address info, nearby POI landmarks grid
+- Rewrote `PropertyDetailView.vue` — Tab layout (楼盘详情 | 价格走势 | 位置周边), skeleton loading, responsive
+- Updated property.ts API with `getPriceHistory()` method
+- Updated customer.ts API with `getRecommendations()` and `updatePreferredLocations()` methods
+- Updated types/index.ts with `PriceHistoryItem`, `RecommendationItem`, `PropertyDetail` interfaces
 
-## Frontend Changes
-### 新增文件
-- `api/order.ts` — 订单API模块
-- `views/customer/PropertyDetailView.vue` — 房产详情页
-- `views/customer/OrderListView.vue` — 客户订单列表
-- `views/customer/OrderDetailView.vue` — 客户订单详情
-- `views/developer/DeveloperOrderListView.vue` — 开发商订单列表
-- `views/developer/DeveloperOrderDetailView.vue` — 开发商订单详情
+### Sprint 3: Homepage Recommendations + Preference Editor
+- Created `PreferredLocationEditor.vue` — Tag editor with add/remove, common locations popover, auto-save to server
+- Created `PropertyRecommendCard.vue` — Recommendation card with hover scale/shadow effect, image overlay, reason tag
+- Modified `DashboardView.vue` — Added recommendation grid section, preference editor, 5-min localStorage cache with manual refresh button
 
-### 修改文件
-- `types/index.ts`: 添加 Order, OrderLog, ORDER_STATUSES, 扩展 Dashboard 类型
-- `router/index.ts`: 添加5个新路由
-- `Sidebar.vue`: 添加订单菜单项（客户和开发商），导入 Tickets 图标
-- `PropertySearchView.vue`: 表格添加 @row-click="handleRowClick" 跳转详情
-- `WizardView.vue`: 结果卡片添加 @click="router.push(...)" 跳转详情
-- `DashboardView.vue` (客户): 增加订单统计卡片和"我的订单"快捷入口，网格改为4列
-- `DashboardView.vue` (开发商): 增加3个订单统计卡片，快捷操作增加"订单管理"
+### Sprint 4: Polish
+- Empty states for charts (no price data), recommendations (no preference set), carousel (no images), property not found
+- Error states for recommendation loading
+- Responsive layouts with media queries in all new/modified components
+- Price trend chart enhanced with dataZoom slider, dual Y-axis, smooth gradient area fills
+- Nearby POI data simulated with location-based regional lookup
+- All interactive elements have hover micro-animations (translateY, shadow)
 
-## API Endpoints
+## New API Endpoints
+
 | Method | Path | Role | Description |
 |--------|------|------|-------------|
-| POST | /api/orders | CUSTOMER | 创建订单 |
-| GET | /api/orders/my | CUSTOMER | 我的订单列表 |
-| GET | /api/orders/{id} | - | 订单详情 |
-| PUT | /api/orders/{id}/pay | CUSTOMER | 支付订单 |
-| PUT | /api/orders/{id}/cancel | CUSTOMER | 取消订单 |
-| GET | /api/orders/received | DEVELOPER | 收到的订单 |
-| PUT | /api/orders/{id}/complete | DEVELOPER | 确认完成 |
-| GET | /api/orders/{id}/logs | - | 订单日志 |
-| GET | /api/orders/stats/my | CUSTOMER | 订单统计 |
-| GET | /api/orders/stats/received | DEVELOPER | 订单统计 |
+| GET | /api/properties/{id}/price-history | PUBLIC | 获取房产近24个月价格历史 |
+| GET | /api/customers/recommendations | CUSTOMER | 获取个性化房产推荐 |
 
-## State Machine
-- null -> 待支付（创建）
-- 待支付 -> 已支付（客户支付）
-- 待支付 -> 已取消（客户取消）
-- 已支付 -> 已完成（开发商确认）
+## Modified API Endpoints
+
+| Method | Path | Change |
+|--------|------|--------|
+| GET | /api/properties/{id} | Now returns PropertyDetailDTO with developerName |
+
+## New Backend Files
+- `entity/PriceHistory.java`
+- `mapper/PriceHistoryMapper.java`
+- `service/PriceHistoryService.java`
+- `service/impl/PriceHistoryServiceImpl.java`
+- `service/RecommendationService.java`
+- `service/impl/RecommendationServiceImpl.java`
+- `dto/PropertyDetailDTO.java`
+- `dto/RecommendationDTO.java`
+
+## New/Major Modified Frontend Files
+- `views/customer/components/PropertyCarousel.vue` (new)
+- `views/customer/components/PriceTrendChart.vue` (new)
+- `views/customer/components/PropertyLocation.vue` (new)
+- `views/customer/components/PreferredLocationEditor.vue` (new)
+- `views/customer/components/PropertyRecommendCard.vue` (new)
+- `views/customer/PropertyDetailView.vue` (rewritten)
+- `views/customer/DashboardView.vue` (modified)
+- `types/index.ts` (modified - new interfaces)
+- `api/property.ts` (modified - new method)
+- `api/customer.ts` (modified - new methods)
 
 ## Known Issues
-- 无
+- PriceHistoryMapper returns data sorted DESC by date; frontend reverses for display
+- Nearby POI data is simulated (static lookup by city/district) rather than real GIS
+- Map display uses picsum.photos fallback instead of real map API (AMap/Baidu)
+- Backend needs MySQL `price_history` table (created via schema.sql)
+- RecommendationService uses LIKE matching which may give false positives for partial location matches
 
 ## Dev Server
-- Frontend: http://localhost:3001 (Vite, port 3000 was in use)
+- Frontend: http://localhost:5173 (Vite default)
 - Backend: http://localhost:8088 (Spring Boot)
-- Status: running
-- Backend command: `java -jar backend/target/fangyicha-backend-1.0.0.jar`
-- Frontend command: `npx vite --host 0.0.0.0 --port 3000` (from frontend/)
+- Status: not started

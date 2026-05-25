@@ -1,5 +1,5 @@
 import api from './index'
-import type { ApiResult, Property, PropertyQuery, ChartDataItem } from '../types'
+import type { ApiResult, Property, PropertyQuery, ChartDataItem, PriceHistoryItem, PropertyDetail } from '../types'
 
 /** 房产相关 API */
 export const propertyApi = {
@@ -8,9 +8,14 @@ export const propertyApi = {
     return api.get('/properties', { params }).then(res => res.data)
   },
 
-  /** 获取房产详情 */
-  getById(id: number): Promise<ApiResult<Property>> {
+  /** 获取房产详情（含开发商名称） */
+  getById(id: number): Promise<ApiResult<PropertyDetail>> {
     return api.get(`/properties/${id}`).then(res => res.data)
+  },
+
+  /** 获取价格历史 */
+  getPriceHistory(id: number, months: number = 24): Promise<ApiResult<PriceHistoryItem[]>> {
+    return api.get(`/properties/${id}/price-history`, { params: { months } }).then(res => res.data)
   },
 
   /** 获取我的房产列表（开发商） */

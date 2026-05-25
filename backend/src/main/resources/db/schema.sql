@@ -92,6 +92,17 @@ CREATE TABLE IF NOT EXISTS report (
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='报表记录';
 
+-- 价格历史表
+CREATE TABLE IF NOT EXISTS price_history (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    property_id BIGINT NOT NULL COMMENT '房产ID',
+    record_date DATE NOT NULL COMMENT '记录日期（月）',
+    price_per_sqm DECIMAL(12,2) NOT NULL COMMENT '当月单价(元/平米)',
+    total_price DECIMAL(14,2) NOT NULL COMMENT '当月总价',
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    INDEX idx_property_date (property_id, record_date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='价格历史';
+
 -- 活动日志表
 CREATE TABLE IF NOT EXISTS activity_log (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
