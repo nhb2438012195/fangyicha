@@ -22,7 +22,7 @@ function handleLogout() {
 <template>
   <div class="layout-container" :class="{ 'sidebar-collapsed': sidebarCollapsed }">
     <!-- 侧边栏 -->
-    <Sidebar />
+    <Sidebar :collapsed="sidebarCollapsed" />
     <!-- 右侧主内容区 -->
     <div class="main-area">
       <!-- 顶部导航栏 -->

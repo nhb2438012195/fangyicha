@@ -8,6 +8,8 @@ const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 
+defineProps<{ collapsed: boolean }>()
+
 /** 根据角色获取菜单项 */
 const menuItems = computed(() => {
   if (authStore.isDeveloper) {
@@ -44,19 +46,19 @@ function handleMenuSelect(index: string) {
 </script>
 
 <template>
-  <div class="sidebar-container">
+  <div class="sidebar-container" :class="{ collapsed }">
     <!-- Logo 区域 -->
     <div class="sidebar-logo" @click="router.push(authStore.isDeveloper ? '/developer/dashboard' : '/customer/dashboard')">
       <div class="logo-icon">房</div>
-      <span class="logo-text">房易查</span>
+      <span class="logo-text" :class="{ hide: collapsed }">房易查</span>
     </div>
 
     <!-- 用户信息 -->
-    <div class="sidebar-user">
-      <el-avatar :size="40" :style="{ backgroundColor: authStore.isDeveloper ? '#f5a623' : '#34a853' }">
+    <div class="sidebar-user" :class="{ hide: collapsed }">
+      <el-avatar :size="collapsed ? 32 : 40" :style="{ backgroundColor: authStore.isDeveloper ? '#f5a623' : '#34a853' }">
         {{ authStore.displayName?.charAt(0) || '?' }}
       </el-avatar>
-      <div class="user-info">
+      <div v-show="!collapsed" class="user-info">
         <div class="user-name">{{ authStore.displayName }}</div>
         <div class="user-role">{{ authStore.isDeveloper ? '开发商' : '购房客户' }}</div>
       </div>
@@ -67,7 +69,7 @@ function handleMenuSelect(index: string) {
       :default-active="activePath"
       :router="false"
       class="sidebar-menu"
-      background-color="#3d2c1e"
+      background-color="#1a0f0a"
       text-color="#b0a090"
       active-text-color="#ffffff"
       @select="handleMenuSelect"
@@ -78,7 +80,7 @@ function handleMenuSelect(index: string) {
         :index="item.path"
       >
         <el-icon><component :is="item.icon" /></el-icon>
-        <span>{{ item.title }}</span>
+        <span :class="{ hide: collapsed }">{{ item.title }}</span>
       </el-menu-item>
     </el-menu>
 
@@ -96,7 +98,7 @@ function handleMenuSelect(index: string) {
 .sidebar-container {
   width: 240px;
   height: 100vh;
-  background: #3d2c1e;
+  background: #1a0f0a;
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -104,6 +106,7 @@ function handleMenuSelect(index: string) {
   top: 0;
   z-index: 100;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease;
 }
 
 .sidebar-logo {
@@ -113,6 +116,7 @@ function handleMenuSelect(index: string) {
   padding: 0 20px;
   cursor: pointer;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: padding 0.3s ease, justify-content 0.3s ease;
 }
 
 .logo-icon {
@@ -128,6 +132,7 @@ function handleMenuSelect(index: string) {
   font-weight: 700;
   margin-right: 12px;
   flex-shrink: 0;
+  transition: margin-right 0.3s ease;
 }
 
 .logo-text {
@@ -143,6 +148,7 @@ function handleMenuSelect(index: string) {
   align-items: center;
   gap: 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: padding 0.3s ease, justify-content 0.3s ease;
 }
 
 .user-info {
@@ -204,5 +210,33 @@ function handleMenuSelect(index: string) {
 .logout-btn:hover {
   color: #ef4444;
   background: rgba(239, 68, 68, 0.1);
+}
+
+/* ===== 折叠状态 ===== */
+.sidebar-container.collapsed {
+  width: 64px;
+}
+
+.sidebar-container.collapsed .sidebar-logo {
+  justify-content: center;
+  padding: 0 8px;
+}
+
+.sidebar-container.collapsed .sidebar-logo .logo-icon {
+  margin-right: 0;
+}
+
+.sidebar-container.collapsed .sidebar-user {
+  justify-content: center;
+  padding: 12px 8px;
+}
+
+.sidebar-container.collapsed .sidebar-menu .el-menu-item {
+  justify-content: center;
+  padding: 0 8px !important;
+}
+
+.hide {
+  display: none !important;
 }
 </style>
