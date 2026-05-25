@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fangyicha.dto.RegisterRequest;
 import com.fangyicha.entity.Customer;
+import com.fangyicha.entity.Order;
 import com.fangyicha.entity.Suggestion;
 import com.fangyicha.mapper.CustomerMapper;
+import com.fangyicha.mapper.OrderMapper;
 import com.fangyicha.mapper.SuggestionMapper;
 import com.fangyicha.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +27,16 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
 
     private final CustomerMapper customerMapper;
     private final SuggestionMapper suggestionMapper;
+    private final OrderMapper orderMapper;
     private final PasswordEncoder passwordEncoder;
 
     public CustomerServiceImpl(CustomerMapper customerMapper,
                                SuggestionMapper suggestionMapper,
+                               OrderMapper orderMapper,
                                PasswordEncoder passwordEncoder) {
         this.customerMapper = customerMapper;
         this.suggestionMapper = suggestionMapper;
+        this.orderMapper = orderMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -115,6 +120,16 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         pendingWrapper.eq(Suggestion::getCustomerId, customerId)
                 .eq(Suggestion::getStatus, "待回复");
         stats.put("pendingCount", suggestionMapper.selectCount(pendingWrapper));
+
+        // 订单统计
+        LambdaQueryWrapper<Order> orderWrapper = new LambdaQueryWrapper<>();
+        orderWrapper.eq(Order::getCustomerId, customerId);
+        stats.put("orderCount", orderMapper.selectCount(orderWrapper));
+
+        LambdaQueryWrapper<Order> pendingOrderWrapper = new LambdaQueryWrapper<>();
+        pendingOrderWrapper.eq(Order::getCustomerId, customerId)
+                .eq(Order::getStatus, "待支付");
+        stats.put("pendingOrderCount", orderMapper.selectCount(pendingOrderWrapper));
 
         return stats;
     }

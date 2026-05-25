@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fangyicha.common.Constants;
 import com.fangyicha.entity.Developer;
+import com.fangyicha.entity.Order;
 import com.fangyicha.entity.Property;
 import com.fangyicha.entity.Suggestion;
 import com.fangyicha.mapper.DeveloperMapper;
+import com.fangyicha.mapper.OrderMapper;
 import com.fangyicha.mapper.PropertyMapper;
 import com.fangyicha.mapper.SuggestionMapper;
 import com.fangyicha.service.DeveloperService;
@@ -31,13 +33,16 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
     private final DeveloperMapper developerMapper;
     private final PropertyMapper propertyMapper;
     private final SuggestionMapper suggestionMapper;
+    private final OrderMapper orderMapper;
 
     public DeveloperServiceImpl(DeveloperMapper developerMapper,
                                 PropertyMapper propertyMapper,
-                                SuggestionMapper suggestionMapper) {
+                                SuggestionMapper suggestionMapper,
+                                OrderMapper orderMapper) {
         this.developerMapper = developerMapper;
         this.propertyMapper = propertyMapper;
         this.suggestionMapper = suggestionMapper;
+        this.orderMapper = orderMapper;
     }
 
     @Override
@@ -121,6 +126,21 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
                 .eq(Suggestion::getStatus, Constants.SUGGESTION_PENDING);
         Long pendingSuggestions = suggestionMapper.selectCount(suggestionWrapper);
         stats.put("pendingSuggestions", pendingSuggestions);
+
+        // 订单统计
+        LambdaQueryWrapper<Order> orderWrapper = new LambdaQueryWrapper<>();
+        orderWrapper.eq(Order::getDeveloperId, developerId);
+        stats.put("orderCount", orderMapper.selectCount(orderWrapper));
+
+        LambdaQueryWrapper<Order> pendingOrderWrapper = new LambdaQueryWrapper<>();
+        pendingOrderWrapper.eq(Order::getDeveloperId, developerId)
+                .eq(Order::getStatus, Constants.ORDER_PENDING_PAYMENT);
+        stats.put("pendingOrderCount", orderMapper.selectCount(pendingOrderWrapper));
+
+        LambdaQueryWrapper<Order> paidOrderWrapper = new LambdaQueryWrapper<>();
+        paidOrderWrapper.eq(Order::getDeveloperId, developerId)
+                .eq(Order::getStatus, Constants.ORDER_PAID);
+        stats.put("paidOrderCount", orderMapper.selectCount(paidOrderWrapper));
 
         return stats;
     }

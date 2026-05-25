@@ -1,56 +1,68 @@
 # Generator State — Iteration 001
 
 ## What Was Built
+- 购房订单模块（后端+前端）
+- 房产详情页（含"立即购买"功能）
 
-### Backend (Spring Boot 3.2 + MyBatis-Plus + JWT)
-- Complete Maven project with all dependencies (Spring Boot, MyBatis-Plus, JWT, Knife4j, Hutool, Lombok)
-- MySQL/H2 dual-profile configuration (dev uses H2 in-memory, prod uses MySQL)
-- Database schema and seed data (5 developers, 15 properties, 3 customers, 5 suggestions)
-- Entity classes: Developer, Customer, Property, Suggestion, ActivityLog, Report
-- Unified API response format `Result<T>` with `{code, message, data}`
-- JWT authentication filter and security configuration (role-based: ROLE_DEVELOPER, ROLE_CUSTOMER)
-- CORS configuration for cross-origin access from frontend
-- Global exception handler with proper HTTP status codes
-- Service implementations with full business logic (auto vacancy rate calculation, profile management)
-- RESTful controllers: Auth, Developer, Property, Customer, Suggestion
-- Property multi-condition query with pagination, sorting, and fuzzy search
-- Vacancy rate statistics endpoints (by location, type, floor scatter)
-- Activity logging service for audit trail
-- Swagger/Knife4j API documentation at /doc.html
+## Backend Changes
+### 新增文件
+- **Entity**: `Order.java`, `OrderLog.java` (MyBatis-Plus entities)
+- **Mapper**: `OrderMapper.java`, `OrderLogMapper.java`
+- **Service**: `OrderService.java` (接口), `OrderServiceImpl.java` (实现)
+- **Controller**: `OrderController.java` (8个API端点)
+- **DB Tables**: `purchase_order`, `order_log` (MySQL, 含种子数据)
 
-### Frontend (Vue 3 + TypeScript + Element Plus + ECharts)
-- Vite project with Vue 3, Composition API, `<script setup>` syntax
-- TypeScript type definitions for all data models
-- Axios HTTP client with JWT interceptor and 401 auto-redirect
-- Pinia auth store for user state management
-- Vue Router with role-based navigation guards
-- Element Plus UI framework with custom color scheme (#1a73e8 primary)
-- ECharts integration for vacancy correlation analytics
-- Sidebar layout with role-based menu items
-- Login page with role selector (developer/customer)
-- Registration page with password strength indicator and username uniqueness check
-- Developer views: Dashboard (metric cards), Property CRUD (table + form), Analytics (3 charts), Profile (company info), Suggestions
-- Customer views: Dashboard, Property Search (multi-condition), Guided Wizard (4-step), Developer List, Suggestions
+### 修改文件
+- `SecurityConfig.java`: 添加 `/api/orders/**` 认证规则
+- `CustomerServiceImpl.java`: 仪表盘增加 orderCount, pendingOrderCount
+- `DeveloperServiceImpl.java`: 仪表盘增加 orderCount, pendingOrderCount, paidOrderCount
+- `Constants.java`: 添加订单状态常量和实体类型常量
+- `data.sql`: 添加建表DDL和种子数据
 
-## What Changed This Iteration
-- Initial implementation of the complete project
+## Frontend Changes
+### 新增文件
+- `api/order.ts` — 订单API模块
+- `views/customer/PropertyDetailView.vue` — 房产详情页
+- `views/customer/OrderListView.vue` — 客户订单列表
+- `views/customer/OrderDetailView.vue` — 客户订单详情
+- `views/developer/DeveloperOrderListView.vue` — 开发商订单列表
+- `views/developer/DeveloperOrderDetailView.vue` — 开发商订单详情
+
+### 修改文件
+- `types/index.ts`: 添加 Order, OrderLog, ORDER_STATUSES, 扩展 Dashboard 类型
+- `router/index.ts`: 添加5个新路由
+- `Sidebar.vue`: 添加订单菜单项（客户和开发商），导入 Tickets 图标
+- `PropertySearchView.vue`: 表格添加 @row-click="handleRowClick" 跳转详情
+- `WizardView.vue`: 结果卡片添加 @click="router.push(...)" 跳转详情
+- `DashboardView.vue` (客户): 增加订单统计卡片和"我的订单"快捷入口，网格改为4列
+- `DashboardView.vue` (开发商): 增加3个订单统计卡片，快捷操作增加"订单管理"
+
+## API Endpoints
+| Method | Path | Role | Description |
+|--------|------|------|-------------|
+| POST | /api/orders | CUSTOMER | 创建订单 |
+| GET | /api/orders/my | CUSTOMER | 我的订单列表 |
+| GET | /api/orders/{id} | - | 订单详情 |
+| PUT | /api/orders/{id}/pay | CUSTOMER | 支付订单 |
+| PUT | /api/orders/{id}/cancel | CUSTOMER | 取消订单 |
+| GET | /api/orders/received | DEVELOPER | 收到的订单 |
+| PUT | /api/orders/{id}/complete | DEVELOPER | 确认完成 |
+| GET | /api/orders/{id}/logs | - | 订单日志 |
+| GET | /api/orders/stats/my | CUSTOMER | 订单统计 |
+| GET | /api/orders/stats/received | DEVELOPER | 订单统计 |
+
+## State Machine
+- null -> 待支付（创建）
+- 待支付 -> 已支付（客户支付）
+- 待支付 -> 已取消（客户取消）
+- 已支付 -> 已完成（开发商确认）
 
 ## Known Issues
-- Image upload not yet implemented (Nice-to-Have for Sprint 5)
-- Dark mode not implemented (Nice-to-Have for Sprint 5)
-- Report/PDF export uses basic browser print only
-- Property image management is placeholder only
-- No Excel export implementation
+- 无
 
 ## Dev Server
-- Backend URL: http://localhost:8088
-- Frontend URL: http://localhost:3000
-- Status: both running
-- Backend command: `mvn spring-boot:run` (from backend/)
-- Frontend command: `npx vite --port 3000 --host` (from frontend/)
-- API Docs: http://localhost:8088/doc.html
-- H2 Console: http://localhost:8088/h2-console
-
-## Seed Accounts
-- Developer: bgy_admin / 123456
-- Customer: zhangsan / 123456
+- Frontend: http://localhost:3001 (Vite, port 3000 was in use)
+- Backend: http://localhost:8088 (Spring Boot)
+- Status: running
+- Backend command: `java -jar backend/target/fangyicha-backend-1.0.0.jar`
+- Frontend command: `npx vite --host 0.0.0.0 --port 3000` (from frontend/)

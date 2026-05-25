@@ -67,6 +67,18 @@ const routes: RouteRecordRaw[] = [
         name: 'DeveloperSuggestions',
         component: () => import('../views/developer/SuggestionsView.vue'),
         meta: { title: '客户建议', icon: 'ChatDotSquare' }
+      },
+      {
+        path: 'orders',
+        name: 'DeveloperOrders',
+        component: () => import('../views/developer/DeveloperOrderListView.vue'),
+        meta: { title: '订单管理', icon: 'Tickets' }
+      },
+      {
+        path: 'orders/:id',
+        name: 'DeveloperOrderDetail',
+        component: () => import('../views/developer/DeveloperOrderDetailView.vue'),
+        meta: { title: '订单详情', hidden: true }
       }
     ]
   },
@@ -124,6 +136,24 @@ const routes: RouteRecordRaw[] = [
         name: 'CustomerProfile',
         component: () => import('../views/customer/ProfileView.vue'),
         meta: { title: '个人资料', icon: 'UserFilled' }
+      },
+      {
+        path: 'properties/:id',
+        name: 'CustomerPropertyDetail',
+        component: () => import('../views/customer/PropertyDetailView.vue'),
+        meta: { title: '房产详情', hidden: true }
+      },
+      {
+        path: 'orders',
+        name: 'CustomerOrders',
+        component: () => import('../views/customer/OrderListView.vue'),
+        meta: { title: '我的订单', icon: 'Tickets' }
+      },
+      {
+        path: 'orders/:id',
+        name: 'CustomerOrderDetail',
+        component: () => import('../views/customer/OrderDetailView.vue'),
+        meta: { title: '订单详情', hidden: true }
       }
     ]
   }

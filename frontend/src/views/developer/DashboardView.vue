@@ -29,7 +29,10 @@ const metricCards = [
   { label: '平均空置率', field: 'avgVacancyRate', unit: '%', color: '#f59e0b', bgColor: '#fef3c7', icon: '📈' },
   { label: '待回复建议', field: 'pendingSuggestions', unit: '条', color: '#ea4335', bgColor: '#fce8e6', icon: '💬' },
   { label: '在售楼盘', field: 'onSaleCount', unit: '个', color: '#34a853', bgColor: '#e6f4ea', icon: '✅' },
-  { label: '待开盘楼盘', field: 'pendingCount', unit: '个', color: '#9334e6', bgColor: '#f3e8ff', icon: '⏳' }
+  { label: '待开盘楼盘', field: 'pendingCount', unit: '个', color: '#9334e6', bgColor: '#f3e8ff', icon: '⏳' },
+  { label: '总订单数', field: 'orderCount', unit: '单', color: '#1a73e8', bgColor: '#e8f0fe', icon: '📋' },
+  { label: '待支付订单', field: 'pendingOrderCount', unit: '单', color: '#f59e0b', bgColor: '#fef3c7', icon: '⏳' },
+  { label: '已支付订单', field: 'paidOrderCount', unit: '单', color: '#34a853', bgColor: '#e6f4ea', icon: '💰' }
 ]
 
 function getMetricValue(item: typeof metricCards[0]): string | number {
@@ -55,7 +58,7 @@ function navigateTo(path: string) {
     </div>
 
     <!-- 加载状态 -->
-    <el-skeleton :loading="loading" animated :count="6" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+    <el-skeleton :loading="loading" animated :count="9" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
       <template #template>
         <el-skeleton-item variant="card" style="height: 140px; border-radius: 10px;" />
       </template>
@@ -108,6 +111,12 @@ function navigateTo(path: string) {
           <div class="action-content">
             <el-icon :size="32" color="#9334e6"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></el-icon>
             <span>公司信息</span>
+          </div>
+        </el-card>
+        <el-card shadow="never" class="action-card" @click="navigateTo('/developer/orders')">
+          <div class="action-content">
+            <el-icon :size="32" color="#1a73e8"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></el-icon>
+            <span>订单管理</span>
           </div>
         </el-card>
       </div>

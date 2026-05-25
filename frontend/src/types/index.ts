@@ -160,13 +160,59 @@ export interface DeveloperDashboard {
   onSaleCount: number
   pendingCount: number
   pendingSuggestions: number
+  orderCount: number
+  pendingOrderCount: number
+  paidOrderCount: number
 }
 
 /** 客户仪表盘数据 */
 export interface CustomerDashboard {
   suggestionCount: number
   pendingCount: number
+  orderCount: number
+  pendingOrderCount: number
 }
+
+/** 订单 */
+export interface Order {
+  id: number
+  orderNo: string
+  customerId: number
+  developerId: number
+  propertyId: number
+  propertyName: string
+  propertyLocation: string
+  floorPlanType: string
+  areaSqm: number
+  totalPrice: number
+  pricePerSqm: number
+  status: string
+  customerName: string
+  customerPhone: string
+  developerName: string
+  paidTime: string
+  completedTime: string
+  cancelledTime: string
+  cancelReason: string
+  createdTime: string
+  updatedTime: string
+}
+
+/** 订单操作日志 */
+export interface OrderLog {
+  id: number
+  orderId: number
+  actorId: number
+  actorRole: string
+  action: string
+  fromStatus: string
+  toStatus: string
+  detail: string
+  createdTime: string
+}
+
+/** 订单状态常量 */
+export const ORDER_STATUSES = ['待支付', '已支付', '已取消', '已完成'] as const
 
 /** 房产常量选项 */
 export const FLOOR_PLAN_TYPES = ['一室一厅', '两室一厅', '三室两厅', '四室两厅', '复式', '别墅'] as const

@@ -88,6 +88,10 @@ function handleSortChange({ prop, order }: { prop: string; order: string }) {
   fetchProperties()
 }
 
+function handleRowClick(row: Property) {
+  router.push(`/customer/properties/${row.id}`)
+}
+
 function formatPrice(price: number | null): string {
   if (!price) return '-'
   if (price >= 10000) {
@@ -241,6 +245,7 @@ onMounted(() => {
         stripe
         style="width: 100%"
         @sort-change="handleSortChange"
+        @row-click="handleRowClick"
         empty-text="没有找到匹配的楼盘"
       >
         <el-table-column prop="propertyName" label="楼盘名称" min-width="160" show-overflow-tooltip />

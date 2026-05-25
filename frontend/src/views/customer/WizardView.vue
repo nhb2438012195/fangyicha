@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, reactive, computed, watch, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { propertyApi } from '../../api/property'
 import { FLOOR_PLAN_TYPES } from '../../types'
 import type { Property } from '../../types'
+
+const router = useRouter()
 
 /** 步骤定义 */
 const steps = [
@@ -231,7 +234,7 @@ watch(wizardData, () => {
         </div>
 
         <div v-if="!loading && matchingProperties.length > 0" class="result-grid">
-          <el-card v-for="p in matchingProperties" :key="p.id" shadow="hover" class="property-card">
+          <el-card v-for="p in matchingProperties" :key="p.id" shadow="hover" class="property-card" @click="router.push(`/customer/properties/${p.id}`)">
             <div class="property-header">
               <h4>{{ p.propertyName }}</h4>
               <el-tag :type="p.status === '在售' ? 'success' : 'info'" size="small">{{ p.status }}</el-tag>

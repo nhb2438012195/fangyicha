@@ -4,6 +4,48 @@
 -- ========================================
 
 -- ========================================
+-- 购房订单表
+-- ========================================
+CREATE TABLE IF NOT EXISTS purchase_order (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    order_no VARCHAR(32) NOT NULL COMMENT '订单号',
+    customer_id BIGINT NOT NULL COMMENT '客户ID',
+    developer_id BIGINT NOT NULL COMMENT '开发商ID',
+    property_id BIGINT NOT NULL COMMENT '房产ID',
+    property_name VARCHAR(200) COMMENT '房产名称',
+    property_location VARCHAR(200) COMMENT '房产位置',
+    floor_plan_type VARCHAR(50) COMMENT '户型',
+    area_sqm DECIMAL(12,2) COMMENT '面积',
+    total_price DECIMAL(14,2) COMMENT '成交总价',
+    price_per_sqm DECIMAL(12,2) COMMENT '单价',
+    status VARCHAR(20) NOT NULL DEFAULT '待支付' COMMENT '状态',
+    customer_name VARCHAR(50) COMMENT '客户姓名',
+    customer_phone VARCHAR(20) COMMENT '客户电话',
+    developer_name VARCHAR(200) COMMENT '开发商名称',
+    paid_time DATETIME COMMENT '支付时间',
+    completed_time DATETIME COMMENT '完成时间',
+    cancelled_time DATETIME COMMENT '取消时间',
+    cancel_reason VARCHAR(500) COMMENT '取消原因',
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) COMMENT='购房订单表';
+
+-- ========================================
+-- 订单操作日志表
+-- ========================================
+CREATE TABLE IF NOT EXISTS order_log (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    order_id BIGINT NOT NULL COMMENT '订单ID',
+    actor_id BIGINT NOT NULL COMMENT '操作人ID',
+    actor_role VARCHAR(20) NOT NULL COMMENT '操作人角色',
+    action VARCHAR(50) NOT NULL COMMENT '操作类型',
+    from_status VARCHAR(20) COMMENT '操作前状态',
+    to_status VARCHAR(20) COMMENT '操作后状态',
+    detail VARCHAR(500) COMMENT '操作详情',
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP
+) COMMENT='订单操作日志表';
+
+-- ========================================
 -- 开发商数据（10家）
 -- ========================================
 INSERT INTO developer (company_name, contact_person, phone, email, address, business_license, description, username, password, status) VALUES
@@ -219,3 +261,34 @@ INSERT INTO activity_log (actor_id, actor_role, action, entity_type, entity_id, 
 (1, 'ROLE_DEVELOPER', 'UPDATE', 'Property', 1, '更新房产信息: 调整总价'),
 (5, 'ROLE_DEVELOPER', 'CREATE', 'Property', 22, '创建房产: 华润·深圳湾悦府'),
 (2, 'ROLE_DEVELOPER', 'UPDATE', 'Property', 10, '更新房产信息: 调整空置率');
+
+-- ========================================
+-- 订单数据（8条）
+-- ========================================
+INSERT INTO purchase_order (order_no, customer_id, developer_id, property_id, property_name, property_location, floor_plan_type, area_sqm, total_price, price_per_sqm, status, customer_name, customer_phone, developer_name, paid_time, completed_time) VALUES
+('FC20260525000001', 1, 1, 1, '美的·蓝溪谷', '株洲市天元区栗雨街道栗雨南路99号', '三室两厅', 120.00, 864000.00, 7200.00, '已支付', '张三', '13900139001', '碧桂园集团', '2026-05-25 10:30:00', NULL),
+('FC20260525000002', 1, 2, 4, '万科·金域天下', '株洲市天元区泰山路与长江南路交汇处', '三室两厅', 130.00, 1014000.00, 7800.00, '已完成', '张三', '13900139001', '万科集团', '2026-05-25 11:00:00', '2026-05-25 14:00:00'),
+('FC20260525000003', 2, 3, 5, '融创·春风十里', '株洲市天元区神农大道与珠江北路交汇处', '两室一厅', 80.00, 520000.00, 6500.00, '待支付', '李四', '13900139002', '融创中国', NULL, NULL),
+('FC20260525000004', 2, 4, 6, '保利·时代广场', '株洲市天元区天台路与长江北路交汇处', '一室一厅', 50.00, 440000.00, 8800.00, '已取消', '李四', '13900139002', '保利发展', NULL, NULL),
+('FC20260525000005', 3, 1, 2, '碧桂园·玖玺台', '株洲市天元区黄河北路与栗雨路交汇处', '四室两厅', 150.00, 1275000.00, 8500.00, '待支付', '王五', '13900139003', '碧桂园集团', NULL, NULL),
+('FC20260525000006', 3, 5, 7, '华润·翡翠府', '株洲市天元区衡山路与湘山路交汇处', '三室两厅', 130.00, 975000.00, 7500.00, '已支付', '王五', '13900139003', '华润置地', '2026-05-25 12:00:00', NULL),
+('FC20260525000007', 4, 3, 44, '融创·春风十里', '株洲市天元区神农大道与珠江北路交汇处', '两室一厅', 80.00, 520000.00, 6500.00, '待支付', '赵六', '13900139004', '融创中国', NULL, NULL),
+('FC20260525000008', 4, 4, 45, '保利·时代广场', '株洲市天元区天台路与长江北路交汇处', '一室一厅', 60.00, 372000.00, 6200.00, '待支付', '赵六', '13900139004', '保利发展', NULL, NULL);
+
+-- ========================================
+-- 订单日志数据
+-- ========================================
+INSERT INTO order_log (order_id, actor_id, actor_role, action, from_status, to_status, detail, created_time) VALUES
+(1, 1, 'ROLE_CUSTOMER', '创建订单', NULL, '待支付', '客户下单购买房产', '2026-05-25 10:00:00'),
+(1, 1, 'ROLE_CUSTOMER', '支付订单', '待支付', '已支付', '客户完成支付', '2026-05-25 10:30:00'),
+(2, 1, 'ROLE_CUSTOMER', '创建订单', NULL, '待支付', '客户下单购买房产', '2026-05-25 10:30:00'),
+(2, 1, 'ROLE_CUSTOMER', '支付订单', '待支付', '已支付', '客户完成支付', '2026-05-25 11:00:00'),
+(2, 2, 'ROLE_DEVELOPER', '确认完成', '已支付', '已完成', '开发商确认订单完成', '2026-05-25 14:00:00'),
+(3, 2, 'ROLE_CUSTOMER', '创建订单', NULL, '待支付', '客户下单购买房产', '2026-05-25 10:30:00'),
+(4, 2, 'ROLE_CUSTOMER', '创建订单', NULL, '待支付', '客户下单购买房产', '2026-05-25 10:30:00'),
+(4, 2, 'ROLE_CUSTOMER', '取消订单', '待支付', '已取消', '客户主动取消', '2026-05-25 11:00:00'),
+(5, 3, 'ROLE_CUSTOMER', '创建订单', NULL, '待支付', '客户下单购买房产', '2026-05-25 11:00:00'),
+(6, 3, 'ROLE_CUSTOMER', '创建订单', NULL, '待支付', '客户下单购买房产', '2026-05-25 11:30:00'),
+(6, 3, 'ROLE_CUSTOMER', '支付订单', '待支付', '已支付', '客户完成支付', '2026-05-25 12:00:00'),
+(7, 4, 'ROLE_CUSTOMER', '创建订单', NULL, '待支付', '客户下单购买房产', '2026-05-25 12:30:00'),
+(8, 4, 'ROLE_CUSTOMER', '创建订单', NULL, '待支付', '客户下单购买房产', '2026-05-25 12:30:00');

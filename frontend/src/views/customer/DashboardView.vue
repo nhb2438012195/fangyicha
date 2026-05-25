@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { customerApi } from '../../api/customer'
 import type { CustomerDashboard } from '../../types'
-import { Search, Guide, ChatDotSquare, OfficeBuilding } from '@element-plus/icons-vue'
+import { Search, Guide, ChatDotSquare, OfficeBuilding, Tickets } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const dashboardData = ref<CustomerDashboard | null>(null)
@@ -27,7 +27,8 @@ const quickActions = [
   { label: '房产查询', desc: '多条件搜索楼盘', icon: Search, color: '#1a73e8', path: '/customer/properties' },
   { label: '引导查询', desc: '按步骤引导找房', icon: Guide, color: '#34a853', path: '/customer/wizard' },
   { label: '开发商列表', desc: '浏览合作开发商', icon: OfficeBuilding, color: '#f59e0b', path: '/customer/developers' },
-  { label: '提交建议', desc: '向开发商提购房意向', icon: ChatDotSquare, color: '#9334e6', path: '/customer/suggestions/new' }
+  { label: '提交建议', desc: '向开发商提购房意向', icon: ChatDotSquare, color: '#9334e6', path: '/customer/suggestions/new' },
+  { label: '我的订单', desc: '查看购房订单状态', icon: Tickets, color: '#ef4444', path: '/customer/orders' }
 ]
 </script>
 
@@ -57,8 +58,12 @@ const quickActions = [
         <div class="stat-label">待回复建议</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" style="color: #1a73e8;">{{ dashboardData?.suggestionCount || 0 }}</div>
-        <div class="stat-label">已提交建议</div>
+        <div class="stat-value" style="color: #1a73e8;">{{ dashboardData?.orderCount || 0 }}</div>
+        <div class="stat-label">我的订单数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color: #34a853;">{{ dashboardData?.pendingOrderCount || 0 }}</div>
+        <div class="stat-label">待支付订单</div>
       </div>
     </div>
 
@@ -120,7 +125,7 @@ const quickActions = [
 
 .stats-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   margin-bottom: 32px;
 }

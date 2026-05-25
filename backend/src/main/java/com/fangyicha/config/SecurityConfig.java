@@ -58,6 +58,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/developers/*").permitAll()
                 // 房产公开可查
                 .requestMatchers(HttpMethod.GET, "/api/properties/**").permitAll()
+                // 订单接口需要认证（角色在 @PreAuthorize 中控制）
+                .requestMatchers("/api/orders/**").authenticated()
                 // Swagger/Knife4j
                 .requestMatchers("/doc.html", "/swagger-ui/**", "/v3/api-docs/**", "/webjars/**").permitAll()
                 // 其他所有接口需要认证

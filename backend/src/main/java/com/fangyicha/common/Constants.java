@@ -35,6 +35,16 @@ public interface Constants {
     String SUGGESTION_REPLIED = "已回复";
     String SUGGESTION_CLOSED = "已关闭";
 
+    /** 订单状态 */
+    String ORDER_PENDING_PAYMENT = "待支付";
+    String ORDER_PAID = "已支付";
+    String ORDER_CANCELLED = "已取消";
+    String ORDER_COMPLETED = "已完成";
+
+    /** 订单实体类型 */
+    String ENTITY_ORDER = "Order";
+    String ENTITY_ORDER_LOG = "OrderLog";
+
     /** JWT Claims */
     String JWT_CLAIM_USER_ID = "userId";
     String JWT_CLAIM_ROLE = "role";
