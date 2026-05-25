@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:fangyicha;DB_CLOSE_DELAY=-1;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    h2:
+      console:
+        enabled: true
+        path: /h2-console
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
+
+# JWT 配置（开发环境）
+jwt:
+  secret: FangYiCha2024SecretKeyForJWTTokenGenerationMustBe256BitsLongDev
+  expiration: 86400000
