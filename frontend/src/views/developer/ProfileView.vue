@@ -27,8 +27,6 @@ const rules = {
 async function loadProfile() {
   loading.value = true
   try {
-    await developerApi.getById(0) // Use /me endpoint
-    // 试试用 auth/me
     const authRes = await (await import('../../api/auth')).authApi.getCurrentUser()
     const userData = authRes.data
     formData.companyName = userData.companyName || ''
