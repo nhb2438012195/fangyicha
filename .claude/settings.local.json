@@ -14,7 +14,11 @@
       "Bash(cat)",
       "mcp__plugin_ecc_github__create_repository",
       "mcp__plugin_ecc_exa__web_search_exa",
-      "Bash(npm --version)"
+      "Bash(npm --version)",
+      "mcp__mysql-local__mysql_test_connection",
+      "mcp__mysql-local__mysql_show_databases",
+      "mcp__mysql-local__mysql_query",
+      "mcp__plugin_ecc_playwright__browser_navigate"
     ]
   },
   "permissionMode": "bypassPermissions"

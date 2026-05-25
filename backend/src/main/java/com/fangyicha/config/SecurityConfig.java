@@ -58,8 +58,6 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/developers/*").permitAll()
                 // 房产公开可查
                 .requestMatchers(HttpMethod.GET, "/api/properties/**").permitAll()
-                // H2 Console
-                .requestMatchers("/h2-console/**").permitAll()
                 // Swagger/Knife4j
                 .requestMatchers("/doc.html", "/swagger-ui/**", "/v3/api-docs/**", "/webjars/**").permitAll()
                 // 其他所有接口需要认证
@@ -70,10 +68,7 @@ public class SecurityConfig {
 
             // 禁用Spring Security默认的登录页面
             .formLogin(AbstractHttpConfigurer::disable)
-            .httpBasic(AbstractHttpConfigurer::disable)
-
-            // H2 Console 允许iframe
-            .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
+            .httpBasic(AbstractHttpConfigurer::disable);
 
         return http.build();
     }

@@ -21,7 +21,7 @@ public class MyBatisPlusConfig {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         // 添加分页拦截器，自动识别数据库类型
         PaginationInnerInterceptor paginationInterceptor = new PaginationInnerInterceptor();
-        paginationInterceptor.setDbType(DbType.H2);
+        paginationInterceptor.setDbType(DbType.MYSQL);
         paginationInterceptor.setOverflow(true);
         paginationInterceptor.setMaxLimit(500L);
         interceptor.addInnerInterceptor(paginationInterceptor);

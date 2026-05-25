@@ -1,6 +1,7 @@
 -- ========================================
 -- 房易查 数据库初始化脚本 (Schema)
--- 兼容 H2 Database (MySQL Mode)
+-- 适配 MySQL 8.0，无外键约束
+-- 数据完整性由应用层保证
 -- ========================================
 
 -- 开发商表
@@ -13,17 +14,17 @@ CREATE TABLE IF NOT EXISTS developer (
     address VARCHAR(500) COMMENT '公司地址',
     business_license VARCHAR(100) COMMENT '营业执照号',
     description TEXT COMMENT '公司简介',
-    username VARCHAR(50) NOT NULL UNIQUE COMMENT '登录用户名',
+    username VARCHAR(50) NOT NULL COMMENT '登录用户名',
     password VARCHAR(255) NOT NULL COMMENT '登录密码(BCrypt加密)',
     status TINYINT DEFAULT 1 COMMENT '状态: 1=启用 0=禁用',
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     updated_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='开发商';
 
 -- 客户表
 CREATE TABLE IF NOT EXISTS customer (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE COMMENT '登录用户名',
+    username VARCHAR(50) NOT NULL COMMENT '登录用户名',
     password VARCHAR(255) NOT NULL COMMENT '登录密码(BCrypt加密)',
     real_name VARCHAR(100) COMMENT '真实姓名',
     phone VARCHAR(20) COMMENT '手机号',
@@ -37,7 +38,7 @@ CREATE TABLE IF NOT EXISTS customer (
     status TINYINT DEFAULT 1 COMMENT '状态: 1=启用 0=禁用',
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     updated_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='客户';
 
 -- 房产表
 CREATE TABLE IF NOT EXISTS property (
@@ -61,9 +62,8 @@ CREATE TABLE IF NOT EXISTS property (
     description TEXT COMMENT '楼盘描述',
     image_urls VARCHAR(2000) COMMENT '图片URL(逗号分隔)',
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-    FOREIGN KEY (developer_id) REFERENCES developer(id)
-);
+    updated_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='房产';
 
 -- 建议/意向表
 CREATE TABLE IF NOT EXISTS suggestion (
@@ -77,10 +77,8 @@ CREATE TABLE IF NOT EXISTS suggestion (
     status VARCHAR(20) DEFAULT '待回复' COMMENT '状态: 待回复/已回复/已关闭',
     reply_content TEXT COMMENT '回复内容',
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-    FOREIGN KEY (customer_id) REFERENCES customer(id),
-    FOREIGN KEY (developer_id) REFERENCES developer(id)
-);
+    updated_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='建议/意向';
 
 -- 报表记录表
 CREATE TABLE IF NOT EXISTS report (
@@ -92,7 +90,7 @@ CREATE TABLE IF NOT EXISTS report (
     result_summary TEXT COMMENT '结果摘要(JSON)',
     file_path VARCHAR(500) COMMENT 'PDF文件路径',
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='报表记录';
 
 -- 活动日志表
 CREATE TABLE IF NOT EXISTS activity_log (
@@ -104,4 +102,4 @@ CREATE TABLE IF NOT EXISTS activity_log (
     entity_id BIGINT COMMENT '实体ID',
     detail TEXT COMMENT '操作详情',
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='活动日志';
