@@ -164,13 +164,13 @@ onMounted(fetchSuggestions)
 .page-title {
   font-size: 22px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 4px;
 }
 
 .page-desc {
   font-size: 14px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin: 0;
 }
 
@@ -185,11 +185,11 @@ onMounted(fetchSuggestions)
 }
 
 .text-muted {
-  color: #9ca3af;
+  color: #b0a090;
 }
 
 .reply-context {
-  background: #f9fafb;
+  background: #f5f0ea;
   padding: 12px 16px;
   border-radius: 8px;
   margin-bottom: 16px;
@@ -197,7 +197,7 @@ onMounted(fetchSuggestions)
 
 .context-item {
   font-size: 13px;
-  color: #4b5563;
+  color: #8a7a6a;
   margin-bottom: 4px;
 }
 

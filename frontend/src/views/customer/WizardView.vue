@@ -286,13 +286,13 @@ watch(wizardData, () => {
 .page-title {
   font-size: 22px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 4px;
 }
 
 .page-desc {
   font-size: 14px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin: 0;
 }
 
@@ -312,13 +312,13 @@ watch(wizardData, () => {
 .step-title {
   font-size: 18px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 8px;
 }
 
 .step-desc {
   font-size: 14px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin: 0 0 24px;
 }
 
@@ -365,21 +365,21 @@ watch(wizardData, () => {
 .type-card {
   padding: 16px;
   text-align: center;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #e8ddd0;
   border-radius: 10px;
   transition: all 0.2s;
   width: 100%;
 }
 
 .type-card:hover {
-  border-color: #1a73e8;
-  background: #f0f6ff;
+  border-color: #f5a623;
+  background: #fef3e2;
 }
 
 .type-name {
   font-size: 15px;
   font-weight: 500;
-  color: #1f2937;
+  color: #4a3728;
 }
 
 /* 价格范围 */
@@ -390,7 +390,7 @@ watch(wizardData, () => {
 .price-field label {
   display: block;
   font-size: 13px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin-bottom: 8px;
 }
 
@@ -404,7 +404,7 @@ watch(wizardData, () => {
 
 .result-count {
   font-size: 14px;
-  color: #6b7280;
+  color: #8a7a6a;
 }
 
 .result-grid {
@@ -433,7 +433,7 @@ watch(wizardData, () => {
 .property-header h4 {
   font-size: 16px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -445,7 +445,7 @@ watch(wizardData, () => {
   justify-content: space-between;
   padding: 6px 0;
   font-size: 13px;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #f0e8e0;
 }
 
 .detail-row:last-child {
@@ -453,15 +453,15 @@ watch(wizardData, () => {
 }
 
 .detail-label {
-  color: #6b7280;
+  color: #8a7a6a;
 }
 
 .detail-value {
-  color: #1f2937;
+  color: #4a3728;
 }
 
 .detail-value.highlight {
-  color: #1a73e8;
+  color: #f5a623;
   font-weight: 600;
   font-size: 16px;
 }
@@ -480,7 +480,7 @@ watch(wizardData, () => {
   justify-content: center;
   gap: 16px;
   padding-top: 24px;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid #f0e8e0;
   margin-top: 8px;
 }
 

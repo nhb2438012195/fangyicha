@@ -199,7 +199,7 @@ onMounted(() => {
               v-for="log in logs"
               :key="log.id"
               :timestamp="log.createdTime"
-              :color="log.action === '支付订单' ? '#34a853' : log.action === '确认完成' ? '#1a73e8' : log.action === '取消订单' ? '#ef4444' : '#9ca3af'"
+              :color="log.action === '支付订单' ? '#34a853' : log.action === '确认完成' ? '#f5a623' : log.action === '取消订单' ? '#ef4444' : '#b0a090'"
             >
               <p style="margin: 0;">
                 <strong>{{ log.action }}</strong>
@@ -207,7 +207,7 @@ onMounted(() => {
                   → <el-tag size="small" :type="getStatusType(log.toStatus)">{{ log.toStatus }}</el-tag>
                 </span>
               </p>
-              <p style="margin: 4px 0 0; font-size: 12px; color: #9ca3af;">{{ log.detail }}</p>
+              <p style="margin: 4px 0 0; font-size: 12px; color: #b0a090;">{{ log.detail }}</p>
             </el-timeline-item>
           </el-timeline>
         </div>
@@ -260,7 +260,7 @@ onMounted(() => {
 .order-title h2 {
   font-size: 22px;
   font-weight: 700;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0;
 }
 
@@ -269,11 +269,11 @@ onMounted(() => {
 }
 
 .order-no .label {
-  color: #9ca3af;
+  color: #b0a090;
 }
 
 .order-no .value {
-  color: #1f2937;
+  color: #4a3728;
   font-weight: 500;
 }
 
@@ -289,7 +289,7 @@ onMounted(() => {
 .section-title {
   font-size: 16px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 16px;
 }
 
@@ -307,17 +307,17 @@ onMounted(() => {
 
 .info-label {
   font-size: 12px;
-  color: #9ca3af;
+  color: #b0a090;
 }
 
 .info-value {
   font-size: 15px;
-  color: #1f2937;
+  color: #4a3728;
   font-weight: 500;
 }
 
 .info-value.price {
-  color: #1a73e8;
+  color: #f5a623;
   font-weight: 700;
   font-size: 18px;
 }

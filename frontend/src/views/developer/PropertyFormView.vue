@@ -264,7 +264,7 @@ onMounted(loadProperty)
 .page-title {
   font-size: 22px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0;
 }
 

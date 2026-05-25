@@ -161,13 +161,13 @@ onMounted(loadProfile)
 .page-title {
   font-size: 22px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 4px;
 }
 
 .page-desc {
   font-size: 14px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin: 0;
 }
 
@@ -182,7 +182,7 @@ onMounted(loadProfile)
 
 .form-tip {
   font-size: 12px;
-  color: #9ca3af;
+  color: #b0a090;
   margin-top: 4px;
 }
 </style>

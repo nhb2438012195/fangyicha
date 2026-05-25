@@ -61,7 +61,7 @@ onMounted(loadData)
       <!-- 公司信息 -->
       <el-card shadow="never" class="info-card">
         <div class="company-header">
-          <el-avatar :size="64" style="background-color: #1a73e8; font-size: 28px;">
+          <el-avatar :size="64" style="background-color: #f5a623; font-size: 28px;">
             {{ developer.companyName?.charAt(0) || '?' }}
           </el-avatar>
           <div class="company-meta">
@@ -121,7 +121,7 @@ onMounted(loadData)
   gap: 20px;
   margin-bottom: 24px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #f0e8e0;
 }
 
 .company-meta {
@@ -134,7 +134,7 @@ onMounted(loadData)
 .company-name {
   font-size: 22px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0;
 }
 
@@ -149,7 +149,7 @@ onMounted(loadData)
 .section-title {
   font-size: 16px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 16px;
 }
 </style>

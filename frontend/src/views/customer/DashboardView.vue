@@ -24,7 +24,7 @@ async function fetchDashboard() {
 onMounted(fetchDashboard)
 
 const quickActions = [
-  { label: '房产查询', desc: '多条件搜索楼盘', icon: Search, color: '#1a73e8', path: '/customer/properties' },
+  { label: '房产查询', desc: '多条件搜索楼盘', icon: Search, color: '#f5a623', path: '/customer/properties' },
   { label: '引导查询', desc: '按步骤引导找房', icon: Guide, color: '#34a853', path: '/customer/wizard' },
   { label: '开发商列表', desc: '浏览合作开发商', icon: OfficeBuilding, color: '#f59e0b', path: '/customer/developers' },
   { label: '提交建议', desc: '向开发商提购房意向', icon: ChatDotSquare, color: '#9334e6', path: '/customer/suggestions/new' },
@@ -54,11 +54,11 @@ const quickActions = [
         <div class="stat-label">我的建议总数</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" style="color: #f59e0b;">{{ dashboardData?.pendingCount || 0 }}</div>
+        <div class="stat-value" style="color: #8a7a6a;">{{ dashboardData?.pendingCount || 0 }}</div>
         <div class="stat-label">待回复建议</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" style="color: #1a73e8;">{{ dashboardData?.orderCount || 0 }}</div>
+        <div class="stat-value" style="color: #4a3728;">{{ dashboardData?.orderCount || 0 }}</div>
         <div class="stat-label">我的订单数</div>
       </div>
       <div class="stat-card">
@@ -86,7 +86,7 @@ const quickActions = [
               <div class="action-label">{{ action.label }}</div>
               <div class="action-desc">{{ action.desc }}</div>
             </div>
-            <el-icon class="action-arrow" color="#9ca3af"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></el-icon>
+            <el-icon class="action-arrow" color="#b0a090"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></el-icon>
           </div>
         </el-card>
       </div>
@@ -113,13 +113,13 @@ const quickActions = [
 .page-title {
   font-size: 22px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 4px;
 }
 
 .page-desc {
   font-size: 14px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin: 0;
 }
 
@@ -131,7 +131,7 @@ const quickActions = [
 }
 
 .stat-card {
-  background: #ffffff;
+  background: #fdf8f3;
   border-radius: 10px;
   padding: 20px;
   text-align: center;
@@ -141,20 +141,20 @@ const quickActions = [
 .stat-value {
   font-size: 36px;
   font-weight: 700;
-  color: #1f2937;
+  color: #4a3728;
   line-height: 1.2;
   margin-bottom: 4px;
 }
 
 .stat-label {
   font-size: 13px;
-  color: #6b7280;
+  color: #8a7a6a;
 }
 
 .section-title {
   font-size: 16px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 16px;
 }
 
@@ -190,13 +190,13 @@ const quickActions = [
 .action-label {
   font-size: 15px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin-bottom: 2px;
 }
 
 .action-desc {
   font-size: 12px;
-  color: #6b7280;
+  color: #8a7a6a;
 }
 
 .action-arrow {
@@ -204,7 +204,7 @@ const quickActions = [
 }
 
 .guide-section {
-  background: #ffffff;
+  background: #fdf8f3;
   border-radius: 10px;
   padding: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);

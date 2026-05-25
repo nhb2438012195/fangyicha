@@ -87,7 +87,7 @@ onMounted(fetchDevelopers)
       >
         <div class="card-content">
           <div class="card-avatar">
-            <el-avatar :size="56" style="background-color: #1a73e8; font-size: 24px;">
+            <el-avatar :size="56" style="background-color: #f5a623; font-size: 24px;">
               {{ dev.companyName?.charAt(0) || '?' }}
             </el-avatar>
           </div>
@@ -131,13 +131,13 @@ onMounted(fetchDevelopers)
 .page-title {
   font-size: 22px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 4px;
 }
 
 .page-desc {
   font-size: 14px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin: 0;
 }
 
@@ -180,7 +180,7 @@ onMounted(fetchDevelopers)
 .company-name {
   font-size: 16px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 8px;
 }
 
@@ -191,12 +191,12 @@ onMounted(fetchDevelopers)
 }
 
 .contact-row .label {
-  color: #6b7280;
+  color: #8a7a6a;
 }
 
 .company-desc {
   font-size: 12px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin: 8px 0 0;
   line-height: 1.5;
 }

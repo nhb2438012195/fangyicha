@@ -236,14 +236,14 @@ async function handleRegister() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f7fa;
+  background: #f5f0ea;
   padding: 24px;
 }
 
 .register-card {
   width: 580px;
   max-width: 100%;
-  background: #ffffff;
+  background: #fdf8f3;
   border-radius: 12px;
   padding: 40px 32px 32px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04);
@@ -257,13 +257,13 @@ async function handleRegister() {
 .register-title {
   font-size: 24px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 8px;
 }
 
 .register-subtitle {
   font-size: 14px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin: 0;
 }
 
@@ -281,7 +281,7 @@ async function handleRegister() {
 
 .strength-label {
   font-size: 12px;
-  color: #6b7280;
+  color: #8a7a6a;
   white-space: nowrap;
 }
 
@@ -304,12 +304,12 @@ async function handleRegister() {
 
 .register-footer {
   text-align: center;
-  color: #6b7280;
+  color: #8a7a6a;
   font-size: 14px;
 }
 
 .login-link {
-  color: #1a73e8;
+  color: #f5a623;
   text-decoration: none;
   font-weight: 500;
   margin-left: 4px;

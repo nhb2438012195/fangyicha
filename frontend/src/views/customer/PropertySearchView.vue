@@ -323,13 +323,13 @@ onMounted(() => {
 .page-title {
   font-size: 22px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 4px;
 }
 
 .page-desc {
   font-size: 14px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin: 0;
 }
 
@@ -346,7 +346,7 @@ onMounted(() => {
 
 .result-count {
   font-size: 13px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin-left: 12px;
 }
 
@@ -362,8 +362,8 @@ onMounted(() => {
   margin-bottom: 4px;
   font-weight: 600;
   font-size: 15px;
-  color: #1f2937;
-  border-bottom: 1px solid #f3f4f6;
+  color: #4a3728;
+  border-bottom: 1px solid #f0e8e0;
 }
 
 .pagination-wrapper {
@@ -405,14 +405,14 @@ onMounted(() => {
 }
 
 .print-report th, .print-report td {
-  border: 1px solid #d1d5db;
+  border: 1px solid #e8ddd0;
   padding: 8px 12px;
   text-align: left;
   font-size: 12px;
 }
 
 .print-report th {
-  background: #f3f4f6;
+  background: #f5f0ea;
   font-weight: 600;
 }
 </style>

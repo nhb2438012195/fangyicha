@@ -53,7 +53,7 @@ function handleMenuSelect(index: string) {
 
     <!-- 用户信息 -->
     <div class="sidebar-user">
-      <el-avatar :size="40" :style="{ backgroundColor: authStore.isDeveloper ? '#1a73e8' : '#34a853' }">
+      <el-avatar :size="40" :style="{ backgroundColor: authStore.isDeveloper ? '#f5a623' : '#34a853' }">
         {{ authStore.displayName?.charAt(0) || '?' }}
       </el-avatar>
       <div class="user-info">
@@ -67,8 +67,8 @@ function handleMenuSelect(index: string) {
       :default-active="activePath"
       :router="false"
       class="sidebar-menu"
-      background-color="#1e293b"
-      text-color="#94a3b8"
+      background-color="#3d2c1e"
+      text-color="#b0a090"
       active-text-color="#ffffff"
       @select="handleMenuSelect"
     >
@@ -96,7 +96,7 @@ function handleMenuSelect(index: string) {
 .sidebar-container {
   width: 240px;
   height: 100vh;
-  background: #1e293b;
+  background: #3d2c1e;
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -118,7 +118,7 @@ function handleMenuSelect(index: string) {
 .logo-icon {
   width: 36px;
   height: 36px;
-  background: #1a73e8;
+  background: #f5a623;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -160,7 +160,7 @@ function handleMenuSelect(index: string) {
 }
 
 .user-role {
-  color: #94a3b8;
+  color: #b0a090;
   font-size: 12px;
   margin-top: 2px;
 }
@@ -185,7 +185,7 @@ function handleMenuSelect(index: string) {
 }
 
 .sidebar-menu .el-menu-item.is-active {
-  background-color: #1a73e8 !important;
+  background-color: #f5a623 !important;
   color: #ffffff !important;
 }
 
@@ -195,7 +195,7 @@ function handleMenuSelect(index: string) {
 }
 
 .logout-btn {
-  color: #94a3b8;
+  color: #b0a090;
   width: 100%;
   justify-content: flex-start;
   font-size: 14px;

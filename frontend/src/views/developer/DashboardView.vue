@@ -24,13 +24,13 @@ onMounted(fetchDashboard)
 
 /** 指标卡片配置 */
 const metricCards = [
-  { label: '房产总数', field: 'propertyCount', unit: '个', color: '#1a73e8', bgColor: '#e8f0fe', icon: '🏠' },
+  { label: '房产总数', field: 'propertyCount', unit: '个', color: '#f5a623', bgColor: '#fef3e2', icon: '🏠' },
   { label: '总户数', field: 'totalUnits', unit: '户', color: '#34a853', bgColor: '#e6f4ea', icon: '📊' },
   { label: '平均空置率', field: 'avgVacancyRate', unit: '%', color: '#f59e0b', bgColor: '#fef3c7', icon: '📈' },
   { label: '待回复建议', field: 'pendingSuggestions', unit: '条', color: '#ea4335', bgColor: '#fce8e6', icon: '💬' },
   { label: '在售楼盘', field: 'onSaleCount', unit: '个', color: '#34a853', bgColor: '#e6f4ea', icon: '✅' },
   { label: '待开盘楼盘', field: 'pendingCount', unit: '个', color: '#9334e6', bgColor: '#f3e8ff', icon: '⏳' },
-  { label: '总订单数', field: 'orderCount', unit: '单', color: '#1a73e8', bgColor: '#e8f0fe', icon: '📋' },
+  { label: '总订单数', field: 'orderCount', unit: '单', color: '#f5a623', bgColor: '#fef3e2', icon: '📋' },
   { label: '待支付订单', field: 'pendingOrderCount', unit: '单', color: '#f59e0b', bgColor: '#fef3c7', icon: '⏳' },
   { label: '已支付订单', field: 'paidOrderCount', unit: '单', color: '#34a853', bgColor: '#e6f4ea', icon: '💰' }
 ]
@@ -91,7 +91,7 @@ function navigateTo(path: string) {
       <div class="action-grid">
         <el-card shadow="never" class="action-card" @click="navigateTo('/developer/properties/create')">
           <div class="action-content">
-            <el-icon :size="32" color="#1a73e8"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></el-icon>
+            <el-icon :size="32" color="#f5a623"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></el-icon>
             <span>添加房产</span>
           </div>
         </el-card>
@@ -115,7 +115,7 @@ function navigateTo(path: string) {
         </el-card>
         <el-card shadow="never" class="action-card" @click="navigateTo('/developer/orders')">
           <div class="action-content">
-            <el-icon :size="32" color="#1a73e8"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></el-icon>
+            <el-icon :size="32" color="#f5a623"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></el-icon>
             <span>订单管理</span>
           </div>
         </el-card>
@@ -136,13 +136,13 @@ function navigateTo(path: string) {
 .page-title {
   font-size: 22px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 4px;
 }
 
 .page-desc {
   font-size: 14px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin: 0;
 }
 
@@ -154,7 +154,7 @@ function navigateTo(path: string) {
 }
 
 .metric-card {
-  background: #ffffff;
+  background: #fdf8f3;
   border-radius: 10px;
   padding: 20px;
   display: flex;
@@ -187,7 +187,7 @@ function navigateTo(path: string) {
 
 .metric-label {
   font-size: 13px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin-bottom: 4px;
 }
 
@@ -200,19 +200,19 @@ function navigateTo(path: string) {
 .metric-number {
   font-size: 28px;
   font-weight: 700;
-  color: #1f2937;
+  color: #4a3728;
   line-height: 1.2;
 }
 
 .metric-unit {
   font-size: 13px;
-  color: #9ca3af;
+  color: #b0a090;
 }
 
 .section-title {
   font-size: 16px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 16px;
 }
 
@@ -240,7 +240,7 @@ function navigateTo(path: string) {
   gap: 12px;
   padding: 20px;
   font-size: 14px;
-  color: #1f2937;
+  color: #4a3728;
   font-weight: 500;
 }
 

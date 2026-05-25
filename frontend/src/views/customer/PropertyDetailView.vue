@@ -199,14 +199,14 @@ onMounted(fetchDetail)
 .title-section h2 {
   font-size: 24px;
   font-weight: 700;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0;
 }
 
 .price-tag {
   font-size: 28px;
   font-weight: 700;
-  color: #1a73e8;
+  color: #f5a623;
   white-space: nowrap;
 }
 
@@ -224,27 +224,27 @@ onMounted(fetchDetail)
 
 .info-label {
   font-size: 12px;
-  color: #9ca3af;
+  color: #b0a090;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .info-value {
   font-size: 15px;
-  color: #1f2937;
+  color: #4a3728;
   font-weight: 500;
 }
 
 .description-section h3 {
   font-size: 16px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 8px;
 }
 
 .description-section p {
   font-size: 14px;
-  color: #6b7280;
+  color: #8a7a6a;
   line-height: 1.8;
   margin: 0;
 }

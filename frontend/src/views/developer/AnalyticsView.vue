@@ -57,7 +57,7 @@ function renderLocationChart(data: ChartDataItem[]) {
   const myChart = echarts.init(chartByLocation.value)
   chartInstances.push(myChart)
   myChart.setOption({
-    title: { text: '各区域空置率对比', left: 'center', textStyle: { fontSize: 16, color: '#1f2937' } },
+    title: { text: '各区域空置率对比', left: 'center', textStyle: { fontSize: 16, color: '#4a3728' } },
     tooltip: {
       trigger: 'axis',
       formatter: (params: any) => {
@@ -92,8 +92,8 @@ function renderLocationChart(data: ChartDataItem[]) {
       data: data.map(d => Number(d.vacancyRate).toFixed(1)),
       itemStyle: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          { offset: 0, color: '#1a73e8' },
-          { offset: 1, color: '#64b5f6' }
+          { offset: 0, color: '#f5a623' },
+          { offset: 1, color: '#f8c065' }
         ]),
         borderRadius: [4, 4, 0, 0]
       },
@@ -118,7 +118,7 @@ function renderTypeChart(data: ChartDataItem[]) {
   const myChart = echarts.init(chartByType.value)
   chartInstances.push(myChart)
   myChart.setOption({
-    title: { text: '各户型空置率对比', left: 'center', textStyle: { fontSize: 16, color: '#1f2937' } },
+    title: { text: '各户型空置率对比', left: 'center', textStyle: { fontSize: 16, color: '#4a3728' } },
     tooltip: {
       trigger: 'axis',
       formatter: (params: any) => {
@@ -168,7 +168,7 @@ function renderFloorChart(data: ChartDataItem[]) {
   const myChart = echarts.init(chartByFloor.value)
   chartInstances.push(myChart)
   myChart.setOption({
-    title: { text: '楼层与空置率关系', left: 'center', textStyle: { fontSize: 16, color: '#1f2937' } },
+    title: { text: '楼层与空置率关系', left: 'center', textStyle: { fontSize: 16, color: '#4a3728' } },
     tooltip: {
       trigger: 'item',
       formatter: (params: any) => {
@@ -195,8 +195,8 @@ function renderFloorChart(data: ChartDataItem[]) {
       data: data.map(d => [d.avgFloor || 0, Number(d.vacancyRate).toFixed(1), d.propertyName || '', d.floorPlanType || '']),
       itemStyle: {
         color: new echarts.graphic.RadialGradient(0.5, 0.5, 0.5, [
-          { offset: 0, color: '#64b5f6' },
-          { offset: 1, color: '#1a73e8' }
+          { offset: 0, color: '#f8c065' },
+          { offset: 1, color: '#f5a623' }
         ])
       },
       markLine: {
@@ -283,13 +283,13 @@ function exportChart(el: HTMLElement | null) {
 .page-title {
   font-size: 22px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0 0 4px;
 }
 
 .page-desc {
   font-size: 14px;
-  color: #6b7280;
+  color: #8a7a6a;
   margin: 0;
 }
 
@@ -312,13 +312,13 @@ function exportChart(el: HTMLElement | null) {
   justify-content: space-between;
   align-items: center;
   padding-bottom: 8px;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #f0e8e0;
 }
 
 .chart-header h3 {
   font-size: 15px;
   font-weight: 600;
-  color: #1f2937;
+  color: #4a3728;
   margin: 0;
 }
 
@@ -334,7 +334,7 @@ function exportChart(el: HTMLElement | null) {
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #9ca3af;
+  color: #b0a090;
   font-size: 14px;
 }
 

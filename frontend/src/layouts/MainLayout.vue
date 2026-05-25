@@ -39,7 +39,7 @@ function handleLogout() {
               首页
             </el-breadcrumb-item>
             <el-breadcrumb-item>
-              <router-link to="" style="color: #1f2937; text-decoration: none;">
+              <router-link to="" style="color: #4a3728; text-decoration: none;">
                 {{ (useRouter().currentRoute.value as any).meta?.title || '' }}
               </router-link>
             </el-breadcrumb-item>
@@ -48,7 +48,7 @@ function handleLogout() {
         <div class="navbar-right">
           <el-dropdown trigger="click" @command="handleLogout">
             <span class="user-dropdown">
-              <el-avatar :size="32" :style="{ backgroundColor: authStore.isDeveloper ? '#1a73e8' : '#34a853' }">
+              <el-avatar :size="32" :style="{ backgroundColor: authStore.isDeveloper ? '#f5a623' : '#34a853' }">
                 {{ authStore.displayName?.charAt(0) || '?' }}
               </el-avatar>
               <span class="user-dropdown-name">{{ authStore.displayName }}</span>
@@ -74,7 +74,7 @@ function handleLogout() {
 .layout-container {
   display: flex;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #f5f0ea;
 }
 
 .main-area {
@@ -92,8 +92,8 @@ function handleLogout() {
 
 .top-navbar {
   height: 56px;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  background: #fdf8f3;
+  border-bottom: 1px solid #e8ddd0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -111,7 +111,7 @@ function handleLogout() {
 }
 
 .collapse-btn {
-  color: #6b7280;
+  color: #8a7a6a;
 }
 
 .navbar-right {
@@ -130,12 +130,12 @@ function handleLogout() {
 }
 
 .user-dropdown:hover {
-  background-color: #f3f4f6;
+  background-color: #f0e8e0;
 }
 
 .user-dropdown-name {
   font-size: 14px;
-  color: #1f2937;
+  color: #8a7a6a;
   font-weight: 500;
 }
 
