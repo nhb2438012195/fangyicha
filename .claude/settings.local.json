@@ -18,7 +18,9 @@
       "mcp__mysql-local__mysql_test_connection",
       "mcp__mysql-local__mysql_show_databases",
       "mcp__mysql-local__mysql_query",
-      "mcp__plugin_ecc_playwright__browser_navigate"
+      "mcp__plugin_ecc_playwright__browser_navigate",
+      "mcp__plugin_ecc_github__search_repositories",
+      "mcp__plugin_ecc_github__get_file_contents"
     ]
   },
   "permissionMode": "bypassPermissions"

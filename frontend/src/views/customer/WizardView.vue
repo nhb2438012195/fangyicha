@@ -415,6 +415,12 @@ watch(wizardData, () => {
 
 .property-card {
   border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.property-card:hover {
+  transform: translateY(-2px);
 }
 
 .property-header {

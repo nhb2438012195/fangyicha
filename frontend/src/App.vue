@@ -44,6 +44,13 @@ body {
   --el-button-hover-border-color: #1557b0;
 }
 
+/* 所有可点击目标显示手型指针 */
+.el-table__row,
+[role="button"],
+.clickable {
+  cursor: pointer;
+}
+
 /* 打印样式 */
 @media print {
   body {

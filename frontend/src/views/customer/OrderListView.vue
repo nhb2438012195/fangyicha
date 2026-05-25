@@ -5,6 +5,7 @@ import { orderApi } from '../../api/order'
 import type { Order } from '../../types'
 import { ORDER_STATUSES } from '../../types'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { MoreFilled } from '@element-plus/icons-vue'
 
 const router = useRouter()
 
@@ -98,6 +99,14 @@ async function handleCancel(order: Order) {
   }
 }
 
+function handleAction(cmd: string, order: Order) {
+  if (cmd === 'detail') {
+    router.push(`/customer/orders/${order.id}`)
+  } else if (cmd === 'cancel') {
+    handleCancel(order)
+  }
+}
+
 onMounted(fetchOrders)
 </script>
 
@@ -145,29 +154,31 @@ onMounted(fetchOrders)
             <el-tag :type="getStatusType(row.status)" size="small">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180" align="center" fixed="right">
+        <el-table-column label="操作" width="130" align="center" fixed="right">
           <template #default="{ row }">
-            <el-button text type="primary" size="small" @click.stop="router.push(`/customer/orders/${row.id}`)">
-              详情
-            </el-button>
-            <el-button
-              v-if="row.status === '待支付'"
-              text
-              type="success"
-              size="small"
-              @click.stop="handlePay(row)"
-            >
-              去支付
-            </el-button>
-            <el-button
-              v-if="row.status === '待支付'"
-              text
-              type="warning"
-              size="small"
-              @click.stop="handleCancel(row)"
-            >
-              取消
-            </el-button>
+            <div class="action-cell">
+              <!-- 待支付: 突出"去支付"，次要操作放下拉 -->
+              <template v-if="row.status === '待支付'">
+                <el-button type="primary" size="small" @click.stop="handlePay(row)">
+                  去支付
+                </el-button>
+                <el-dropdown trigger="click" @command="(cmd: string) => handleAction(cmd, row)">
+                  <el-button size="small" @click.stop class="more-btn">
+                    <el-icon><MoreFilled /></el-icon>
+                  </el-button>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item command="detail">详情</el-dropdown-item>
+                      <el-dropdown-item command="cancel">取消</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+              </template>
+              <!-- 其他状态: 只有详情 -->
+              <el-button v-else text type="primary" size="small" @click.stop="router.push(`/customer/orders/${row.id}`)">
+                详情
+              </el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -238,5 +249,15 @@ onMounted(fetchOrders)
     flex-direction: column;
     align-items: flex-start;
   }
+}
+
+.action-cell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.more-btn {
+  padding: 4px 6px;
 }
 </style>
