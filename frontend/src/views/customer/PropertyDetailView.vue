@@ -113,7 +113,7 @@ onMounted(() => {
       <el-skeleton animated>
         <template #template>
           <el-skeleton-item variant="rect" style="width:100%;height:450px;border-radius:12px;margin-bottom:16px;" />
-          <el-skeleton-item variant="card" style="height:200px;border-radius:10px;" />
+          <el-skeleton-item variant="rect" style="height:200px;border-radius:10px;" />
         </template>
       </el-skeleton>
     </template>

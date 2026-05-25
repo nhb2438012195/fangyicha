@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fangyicha.common.Constants;
 import com.fangyicha.common.Result;
 import com.fangyicha.dto.PropertyDetailDTO;
+import com.fangyicha.dto.PropertyQueryRequest;
 import com.fangyicha.entity.Developer;
 import com.fangyicha.entity.PriceHistory;
 import com.fangyicha.entity.Property;

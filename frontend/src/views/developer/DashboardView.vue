@@ -60,7 +60,7 @@ function navigateTo(path: string) {
     <!-- 加载状态 -->
     <el-skeleton :loading="loading" animated :count="9" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
       <template #template>
-        <el-skeleton-item variant="card" style="height: 140px; border-radius: 10px;" />
+        <el-skeleton-item variant="rect" style="height: 140px; border-radius: 10px;" />
       </template>
     </el-skeleton>
 

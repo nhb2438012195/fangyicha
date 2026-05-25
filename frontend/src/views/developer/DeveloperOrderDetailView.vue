@@ -94,9 +94,9 @@ onMounted(() => {
 
     <el-skeleton :loading="loading" animated>
       <template #template>
-        <el-skeleton-item variant="card" style="height: 200px;" />
+        <el-skeleton-item variant="rect" style="height: 200px;" />
         <div style="margin-top: 16px;">
-          <el-skeleton-item variant="card" style="height: 150px;" />
+          <el-skeleton-item variant="rect" style="height: 150px;" />
         </div>
       </template>
     </el-skeleton>

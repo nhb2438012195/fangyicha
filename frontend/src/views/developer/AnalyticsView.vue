@@ -234,8 +234,8 @@ function exportChart(el: HTMLElement | null) {
     <el-skeleton :loading="loading" animated>
       <template #template>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: 16px;">
-          <el-skeleton-item variant="card" style="aspect-ratio: 16/9; min-height: 300px;" v-for="i in 2" :key="i" />
-          <el-skeleton-item variant="card" style="aspect-ratio: 16/9; min-height: 300px; grid-column: 1 / -1;" />
+          <el-skeleton-item variant="rect" style="aspect-ratio: 16/9; min-height: 300px;" v-for="i in 2" :key="i" />
+          <el-skeleton-item variant="rect" style="aspect-ratio: 16/9; min-height: 300px; grid-column: 1 / -1;" />
         </div>
       </template>
     </el-skeleton>

@@ -123,7 +123,7 @@ const quickActions = [
     <el-skeleton :loading="loading" animated>
       <template #template>
         <div style="display: flex; gap: 16px;">
-          <el-skeleton-item variant="card" style="height: 100px; flex: 1;" v-for="i in 3" :key="i" />
+          <el-skeleton-item variant="rect" style="height: 100px; flex: 1;" v-for="i in 3" :key="i" />
         </div>
       </template>
     </el-skeleton>
@@ -165,7 +165,7 @@ const quickActions = [
       <el-skeleton :loading="recLoading" animated>
         <template #template>
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
-            <el-skeleton-item variant="card" style="height: 300px;" v-for="i in 3" :key="i" />
+            <el-skeleton-item variant="rect" style="height: 300px;" v-for="i in 3" :key="i" />
           </div>
         </template>
       </el-skeleton>

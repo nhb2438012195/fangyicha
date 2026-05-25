@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
 import { customerApi } from '../../../api/customer'
 
 const emit = defineEmits<{
@@ -9,7 +10,6 @@ const emit = defineEmits<{
 
 const locations = ref<string[]>([])
 const loading = ref(true)
-const editing = ref(false)
 const inputValue = ref('')
 
 const commonLocations = [
@@ -64,10 +64,6 @@ function removeLocation(index: number) {
   saveLocations(newLocations)
 }
 
-function toggleEdit() {
-  editing.value = !editing.value
-}
-
 onMounted(fetchProfile)
 </script>
 
@@ -75,13 +71,6 @@ onMounted(fetchProfile)
   <div class="preferred-location-editor">
     <div class="editor-header">
       <h3 class="editor-title">偏好区域</h3>
-      <el-button
-        text
-        size="small"
-        @click="toggleEdit"
-      >
-        {{ editing ? '完成' : '编辑' }}
-      </el-button>
     </div>
 
     <div class="tags-container" v-loading="loading">
@@ -97,18 +86,15 @@ onMounted(fetchProfile)
         {{ loc }}
       </el-tag>
 
-      <!-- 添加按钮 -->
+      <!-- 添加按钮（始终显示） -->
       <el-popover
-        v-if="editing"
         placement="bottom"
         trigger="click"
         :width="320"
         popper-class="location-popover"
       >
         <template #reference>
-          <el-button size="small" circle class="add-btn">
-            +
-          </el-button>
+          <el-button size="small" circle class="add-btn" :icon="Plus" />
         </template>
         <div class="popover-content">
           <el-input
@@ -133,8 +119,8 @@ onMounted(fetchProfile)
       </el-popover>
 
       <!-- 空状态 -->
-      <span v-if="!loading && locations.length === 0 && !editing" class="empty-tip">
-        点击「编辑」设置偏好区域
+      <span v-if="!loading && locations.length === 0" class="empty-tip">
+        点击 + 添加偏好区域，获取个性化推荐
       </span>
     </div>
   </div>
@@ -146,9 +132,6 @@ onMounted(fetchProfile)
 }
 
 .editor-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   margin-bottom: 10px;
 }
 
@@ -185,16 +168,17 @@ onMounted(fetchProfile)
 }
 
 .add-btn {
-  background: rgba(245, 166, 35, 0.1);
-  color: #f5a623;
-  border: 1px dashed rgba(245, 166, 35, 0.3);
+  background: #f5a623;
+  color: #fff;
+  border: none;
   font-size: 16px;
+  font-weight: 700;
   transition: all 0.2s;
 }
 
 .add-btn:hover {
-  background: rgba(245, 166, 35, 0.2);
-  transform: scale(1.05);
+  background: #d49520;
+  transform: scale(1.1);
 }
 
 .empty-tip {
