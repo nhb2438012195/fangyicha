@@ -223,7 +223,7 @@ watch(wizardData, () => {
         <el-skeleton :loading="loading" animated :count="3">
           <template #template>
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
-              <el-skeleton-item variant="card" style="height: 200px;" v-for="i in 3" :key="i" />
+              <el-skeleton-item variant="rect" style="height: 200px;" v-for="i in 3" :key="i" />
             </div>
           </template>
         </el-skeleton>

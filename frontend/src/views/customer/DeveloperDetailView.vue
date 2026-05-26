@@ -52,8 +52,8 @@ onMounted(loadData)
 
     <el-skeleton :loading="loading" animated>
       <template #template>
-        <el-skeleton-item variant="card" style="height: 200px; border-radius: 10px;" />
-        <el-skeleton-item variant="card" style="height: 300px; border-radius: 10px; margin-top: 16px;" />
+        <el-skeleton-item variant="rect" style="height: 200px; border-radius: 10px;" />
+        <el-skeleton-item variant="rect" style="height: 300px; border-radius: 10px; margin-top: 16px;" />
       </template>
     </el-skeleton>
 

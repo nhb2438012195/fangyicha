@@ -68,7 +68,7 @@ onMounted(fetchDevelopers)
     <el-skeleton :loading="loading" animated :count="4">
       <template #template>
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
-          <el-skeleton-item variant="card" style="height: 160px;" v-for="i in 4" :key="i" />
+          <el-skeleton-item variant="rect" style="height: 160px;" v-for="i in 4" :key="i" />
         </div>
       </template>
     </el-skeleton>
