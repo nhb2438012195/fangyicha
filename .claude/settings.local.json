@@ -24,7 +24,8 @@
       "WebSearch",
       "mcp__mysql__mysql_query",
       "mcp__mysql__mysql_show_databases",
-      "mcp__mysql-local__mysql_describe_table"
+      "mcp__mysql-local__mysql_describe_table",
+      "mcp__mysql-local__mysql_show_tables"
     ]
   },
   "permissionMode": "bypassPermissions"
