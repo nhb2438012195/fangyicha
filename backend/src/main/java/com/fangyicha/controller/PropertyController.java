@@ -9,6 +9,7 @@ import com.fangyicha.entity.Developer;
 import com.fangyicha.entity.PriceHistory;
 import com.fangyicha.entity.Property;
 import com.fangyicha.service.*;
+import com.fangyicha.service.FavoriteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -34,15 +35,18 @@ public class PropertyController {
     private final ActivityLogService activityLogService;
     private final DeveloperService developerService;
     private final PriceHistoryService priceHistoryService;
+    private final FavoriteService favoriteService;
 
     public PropertyController(PropertyService propertyService,
                               ActivityLogService activityLogService,
                               DeveloperService developerService,
-                              PriceHistoryService priceHistoryService) {
+                              PriceHistoryService priceHistoryService,
+                              FavoriteService favoriteService) {
         this.propertyService = propertyService;
         this.activityLogService = activityLogService;
         this.developerService = developerService;
         this.priceHistoryService = priceHistoryService;
+        this.favoriteService = favoriteService;
     }
 
     /**
@@ -61,7 +65,8 @@ public class PropertyController {
      */
     @GetMapping("/{id}")
     @Operation(summary = "房产详情", description = "根据ID获取房产详细信息，包含开发商名称")
-    public Result<PropertyDetailDTO> getProperty(@PathVariable Long id) {
+    public Result<PropertyDetailDTO> getProperty(@PathVariable Long id,
+                                                  Authentication authentication) {
         Property property = propertyService.getById(id);
         if (property == null) {
             return Result.notFound("房产不存在");
@@ -72,6 +77,12 @@ public class PropertyController {
         Developer developer = developerService.getById(property.getDeveloperId());
         if (developer != null) {
             dto.setDeveloperName(developer.getCompanyName());
+        }
+        // 查询收藏状态（仅对客户角色）
+        if (authentication != null && authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_CUSTOMER"))) {
+            Long customerId = (Long) authentication.getPrincipal();
+            dto.setFavorited(favoriteService.isFavorited(customerId, id));
         }
         return Result.success(dto);
     }

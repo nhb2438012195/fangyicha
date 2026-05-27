@@ -4,6 +4,62 @@
 -- 数据完整性由应用层保证
 -- ========================================
 
+-- ========================================
+-- AI 会话表
+-- ========================================
+CREATE TABLE IF NOT EXISTS ai_session (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    customer_id BIGINT NOT NULL COMMENT '客户ID',
+    title VARCHAR(100) COMMENT '会话标题（自动生成，截取30字）',
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='AI会话';
+
+-- ========================================
+-- AI 消息表
+-- ========================================
+CREATE TABLE IF NOT EXISTS ai_message (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    session_id BIGINT NOT NULL COMMENT '所属会话ID',
+    role VARCHAR(10) NOT NULL COMMENT '角色: user/assistant',
+    content TEXT NOT NULL COMMENT '消息内容',
+    message_type VARCHAR(20) DEFAULT 'text' COMMENT '消息类型: text/recommendation/favorites/order_summary',
+    metadata JSON COMMENT '结构化数据（卡片渲染用JSON）',
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    INDEX idx_session_created (session_id, created_time)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='AI消息';
+
+-- ========================================
+-- 待确认订单表（AI下单两阶段用）
+-- ========================================
+CREATE TABLE IF NOT EXISTS pending_order (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    session_id BIGINT NOT NULL COMMENT 'AI会话ID',
+    customer_id BIGINT COMMENT '客户ID',
+    property_id BIGINT NOT NULL COMMENT '楼盘ID',
+    customer_name VARCHAR(50) COMMENT '客户姓名',
+    customer_phone VARCHAR(20) COMMENT '客户电话',
+    status VARCHAR(20) DEFAULT 'pending' COMMENT '状态: pending/confirmed/cancelled',
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    confirmed_time DATETIME COMMENT '确认时间',
+    UNIQUE KEY uk_session_pending (session_id, status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='AI待确认订单';
+
+-- ========================================
+-- 知识库文档表
+-- ========================================
+CREATE TABLE IF NOT EXISTS knowledge_documents (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    developer_id BIGINT NOT NULL COMMENT '上传的开发商ID',
+    filename VARCHAR(255) NOT NULL COMMENT '原始文件名',
+    stored_filename VARCHAR(255) NOT NULL COMMENT '存储文件名（data/rag-uploads/下）',
+    file_size BIGINT NOT NULL COMMENT '文件大小（字节）',
+    status VARCHAR(20) DEFAULT 'uploaded' COMMENT '状态: uploaded/indexed/error',
+    error_message VARCHAR(500) COMMENT '错误信息',
+    uploaded_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '上传时间',
+    indexed_time DATETIME COMMENT '索引时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='知识库文档';
+
 -- 开发商表
 CREATE TABLE IF NOT EXISTS developer (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -102,6 +158,17 @@ CREATE TABLE IF NOT EXISTS price_history (
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     INDEX idx_property_date (property_id, record_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='价格历史';
+
+-- 收藏表
+CREATE TABLE IF NOT EXISTS favorite (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+    customer_id BIGINT NOT NULL COMMENT '客户ID',
+    property_id BIGINT NOT NULL COMMENT '楼盘ID',
+    created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '收藏时间',
+    UNIQUE KEY uk_customer_property (customer_id, property_id),
+    INDEX idx_customer_created (customer_id, created_time DESC),
+    INDEX idx_property (property_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='收藏';
 
 -- 活动日志表
 CREATE TABLE IF NOT EXISTS activity_log (

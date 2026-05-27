@@ -250,4 +250,24 @@ export interface RecommendationItem {
 /** 房产详情（含开发商名称） */
 export interface PropertyDetail extends Property {
   developerName: string
+  favorited?: boolean
+}
+
+// AI助手类型
+export type { AiSession, AiSessionDTO, AiMessageDTO, ChatRequest, ChatResponse, ReplyContent, KnowledgeDocument } from './ai'
+
+/** 收藏列表项 */
+export interface FavoriteItem {
+  favoriteId: number
+  createdTime: string
+  propertyId: number
+  propertyName: string
+  location: string
+  pricePerSqm: number
+  totalPrice: number
+  areaSqm: number
+  floorPlanType: string
+  decoration: string
+  imageUrl: string
+  developerName: string
 }

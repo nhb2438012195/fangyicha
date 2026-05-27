@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
-import { Odometer, HomeFilled, DataAnalysis, InfoFilled, ChatDotSquare, Search, Guide, OfficeBuilding, UserFilled, Tickets } from '@element-plus/icons-vue'
+import { Odometer, HomeFilled, DataAnalysis, InfoFilled, ChatDotSquare, Search, Guide, OfficeBuilding, UserFilled, Tickets, Star, Notebook } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -18,6 +18,7 @@ const menuItems = computed(() => {
       { path: '/developer/properties', title: '房产管理', icon: HomeFilled },
       { path: '/developer/analytics', title: '空置率分析', icon: DataAnalysis },
       { path: '/developer/profile', title: '公司信息', icon: InfoFilled },
+      { path: '/developer/knowledge-base', title: '知识库管理', icon: Notebook },
       { path: '/developer/suggestions', title: '客户建议', icon: ChatDotSquare },
       { path: '/developer/orders', title: '订单管理', icon: Tickets }
     ]
@@ -28,6 +29,7 @@ const menuItems = computed(() => {
       { path: '/customer/properties', title: '房产查询', icon: Search },
       { path: '/customer/wizard', title: '引导查询', icon: Guide },
       { path: '/customer/developers', title: '开发商', icon: OfficeBuilding },
+      { path: '/customer/favorites', title: '我的收藏', icon: Star },
       { path: '/customer/suggestions', title: '我的建议', icon: ChatDotSquare },
       { path: '/customer/profile', title: '个人资料', icon: UserFilled },
       { path: '/customer/orders', title: '我的订单', icon: Tickets }

@@ -74,7 +74,7 @@ async function handlePay(order: Order) {
       '支付确认',
       { confirmButtonText: '去支付', cancelButtonText: '取消', type: 'info' }
     )
-    const res = await orderApi.pay(order.id)
+    await orderApi.pay(order.id)
     ElMessage.success('支付成功！')
     fetchOrders()
   } catch (error: any) {

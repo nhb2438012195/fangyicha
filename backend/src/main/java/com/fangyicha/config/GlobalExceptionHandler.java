@@ -2,6 +2,7 @@ package com.fangyicha.config;
 
 import com.fangyicha.common.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
@@ -51,6 +52,16 @@ public class GlobalExceptionHandler {
     public Result<Void> handleIllegalArgumentException(IllegalArgumentException e) {
         log.warn("非法参数: {}", e.getMessage());
         return Result.badRequest(e.getMessage());
+    }
+
+    /**
+     * 重复键异常（如重复收藏）
+     */
+    @ExceptionHandler(DuplicateKeyException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Result<Void> handleDuplicateKeyException(DuplicateKeyException e) {
+        log.warn("数据重复: {}", e.getMessage());
+        return Result.error(409, e.getMessage());
     }
 
     /**

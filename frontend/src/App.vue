@@ -1,9 +1,24 @@
 <script setup lang="ts">
-// 根组件 - 仅提供路由视图出口
+import { useAuthStore } from './stores/auth'
+import { useRoute } from 'vue-router'
+import FloatingBubble from './views/customer/components/chat/FloatingBubble.vue'
+import ChatWindow from './views/customer/components/chat/ChatWindow.vue'
+
+const authStore = useAuthStore()
+const route = useRoute()
+
+/** 是否显示AI助手悬浮球 */
+function showChat() {
+  return authStore.isLoggedIn && authStore.isCustomer && !route.meta?.public
+}
 </script>
 
 <template>
   <router-view />
+  <template v-if="showChat()">
+    <FloatingBubble />
+    <ChatWindow />
+  </template>
 </template>
 
 <style>

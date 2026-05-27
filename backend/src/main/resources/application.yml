@@ -11,6 +11,20 @@ spring:
     time-zone: Asia/Shanghai
     default-property-inclusion: non_null
 
+  # Spring AI (DeepSeek via OpenAI compatibility)
+  ai:
+    openai:
+      base-url: https://api.deepseek.com/v1
+      api-key: ${DEEPSEEK_API_KEY:sk-placeholder}
+      chat:
+        options:
+          model: deepseek-chat
+          temperature: 0.7
+          max-tokens: 1024
+      embedding:
+        options:
+          model: deepseek-embedding
+
 # MyBatis-Plus 配置
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml

@@ -57,6 +57,12 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '空置率分析', icon: 'DataAnalysis' }
       },
       {
+        path: 'knowledge-base',
+        name: 'DeveloperKnowledgeBase',
+        component: () => import('../views/developer/KnowledgeBaseView.vue'),
+        meta: { title: '知识库管理', icon: 'Notebook' }
+      },
+      {
         path: 'profile',
         name: 'DeveloperProfile',
         component: () => import('../views/developer/ProfileView.vue'),
@@ -118,6 +124,12 @@ const routes: RouteRecordRaw[] = [
         name: 'CustomerDeveloperDetail',
         component: () => import('../views/customer/DeveloperDetailView.vue'),
         meta: { title: '开发商详情', hidden: true }
+      },
+      {
+        path: 'favorites',
+        name: 'CustomerFavorites',
+        component: () => import('../views/customer/FavoritesView.vue'),
+        meta: { title: '我的收藏', icon: 'Star' }
       },
       {
         path: 'suggestions',

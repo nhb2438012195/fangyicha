@@ -16,4 +16,7 @@ public class PropertyDetailDTO extends Property {
 
     /** 开发商公司名称 */
     private String developerName;
+
+    /** 当前登录客户是否已收藏 */
+    private Boolean favorited;
 }
