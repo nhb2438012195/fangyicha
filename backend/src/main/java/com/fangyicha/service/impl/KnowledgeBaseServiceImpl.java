@@ -28,7 +28,7 @@ import java.util.UUID;
 @Service
 public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
 
-    private static final String UPLOAD_DIR = "data/rag-uploads";
+    private static final String UPLOAD_DIR = new java.io.File("data/rag-uploads").getAbsolutePath();
     private static final long MAX_FILE_SIZE = 10L * 1024 * 1024; // 10MB
 
     private final KnowledgeDocumentMapper documentMapper;

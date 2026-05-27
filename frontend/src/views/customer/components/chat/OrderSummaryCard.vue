@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+
 const props = defineProps<{
+  orderId?: number
   propertyName?: string
   location?: string
   floorPlanType?: string
@@ -11,6 +14,8 @@ const props = defineProps<{
   orderNo?: string
 }>()
 
+const router = useRouter()
+
 function formatPrice(price: number | undefined | null): string {
   if (!price) return '-'
   if (price >= 10000) {
@@ -18,10 +23,16 @@ function formatPrice(price: number | undefined | null): string {
   }
   return '¥' + price.toLocaleString()
 }
+
+function handleClick() {
+  if (props.orderId) {
+    router.push(`/customer/orders/${props.orderId}`)
+  }
+}
 </script>
 
 <template>
-  <div class="order-summary-card">
+  <div class="order-summary-card" :class="{ clickable: !!orderId }" @click="handleClick">
     <div class="order-title">{{ orderNo ? '订单已确认' : '订单预览' }}</div>
     <div v-if="orderNo" class="order-no">订单号: {{ orderNo }}</div>
     <div class="order-body">
@@ -58,6 +69,7 @@ function formatPrice(price: number | undefined | null): string {
         <span class="order-value">{{ customerPhone || '-' }}</span>
       </div>
     </div>
+    <div v-if="orderId" class="order-hint">点击查看订单详情</div>
   </div>
 </template>
 
@@ -69,6 +81,15 @@ function formatPrice(price: number | undefined | null): string {
   padding: 12px;
   width: 100%;
   box-sizing: border-box;
+}
+
+.order-summary-card.clickable {
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+
+.order-summary-card.clickable:hover {
+  box-shadow: 0 2px 8px rgba(245, 166, 35, 0.25);
 }
 
 .order-title {
@@ -112,5 +133,14 @@ function formatPrice(price: number | undefined | null): string {
   color: #f5a623;
   font-weight: 700;
   font-size: 14px;
+}
+
+.order-hint {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #f5a623;
+  text-align: center;
+  border-top: 1px solid #f0e0cc;
+  padding-top: 6px;
 }
 </style>

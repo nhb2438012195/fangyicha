@@ -175,6 +175,10 @@ public class FunctionCallServiceImpl implements FunctionCallService {
         if (property == null) {
             return new FunctionResult(false, "楼盘不存在", null);
         }
+        // 只允许在售楼盘创建订单
+        if (!"在售".equals(property.getStatus())) {
+            return new FunctionResult(false, "该楼盘当前不在在售状态，暂时无法购买", null);
+        }
 
         Customer customer = customerMapper.selectById(customerId);
         if (customer == null) {
@@ -264,7 +268,13 @@ public class FunctionCallServiceImpl implements FunctionCallService {
         data.put("orderNo", order.getOrderNo());
         data.put("propertyId", order.getPropertyId());
         data.put("propertyName", order.getPropertyName());
+        data.put("location", order.getPropertyLocation());
+        data.put("floorPlanType", order.getFloorPlanType());
+        data.put("areaSqm", order.getAreaSqm());
         data.put("totalPrice", order.getTotalPrice());
+        data.put("pricePerSqm", order.getPricePerSqm());
+        data.put("customerName", order.getCustomerName());
+        data.put("customerPhone", order.getCustomerPhone());
         data.put("status", order.getStatus());
 
         return new FunctionResult(true, "订单已确认！订单号: " + order.getOrderNo(), data);

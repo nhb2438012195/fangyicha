@@ -14,8 +14,8 @@ spring:
   # Spring AI (DeepSeek via OpenAI compatibility)
   ai:
     openai:
-      base-url: https://api.deepseek.com/v1
-      api-key: ${DEEPSEEK_API_KEY:sk-placeholder}
+      base-url: https://api.deepseek.com
+      api-key: sk-049d68581414449aa10226d97f4f67ec
       chat:
         options:
           model: deepseek-chat

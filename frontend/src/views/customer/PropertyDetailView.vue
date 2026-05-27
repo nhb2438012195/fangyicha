@@ -9,6 +9,7 @@ import { ArrowLeft, Tickets } from '@element-plus/icons-vue'
 import PropertyCarousel from './components/PropertyCarousel.vue'
 import PriceTrendChart from './components/PriceTrendChart.vue'
 import PropertyLocation from './components/PropertyLocation.vue'
+import FavoriteButton from './components/FavoriteButton.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -165,6 +166,11 @@ onMounted(() => {
           >
             立即购买
           </el-button>
+          <FavoriteButton
+            v-if="property"
+            :property-id="property.id"
+            :initial-favorited="property.favorited"
+          />
           <el-button size="large" @click="router.push('/customer/properties')">
             继续浏览
           </el-button>

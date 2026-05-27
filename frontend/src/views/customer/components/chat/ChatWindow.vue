@@ -74,6 +74,11 @@ function handleQuickAction(text: string) {
   chatStore.sendMessage(text)
 }
 
+/** 去除 AI 回复中的 markdown 标记 */
+function formatText(text: string) {
+  return text.replace(/\*\*/g, '')
+}
+
 /** 加载会话列表 */
 onMounted(() => {
   if (authStore.isLoggedIn && authStore.isCustomer) {
@@ -151,6 +156,16 @@ onMounted(() => {
           <!-- Normal message -->
           <template v-else-if="msg.role === 'assistant'">
             <div v-if="index === 0 || chatStore.messages[index-1]?.role !== 'assistant'" class="msg-label">房易小助手</div>
+
+            <!-- Text content (always show if there is content) -->
+            <div v-if="msg.content" class="bubble-text">
+              <span v-if="msg.content.length <= 500 || msg.expanded">{{ formatText(msg.content) }}</span>
+              <span v-else>{{ formatText(msg.content).substring(0, 500) + '...' }}</span>
+              <button v-if="msg.content.length > 500" class="toggle-btn" @click="chatStore.toggleExpand(index)">
+                {{ msg.expanded ? '收起' : '展开全文' }}
+              </button>
+            </div>
+
             <!-- Recommendation cards -->
             <div v-if="msg.messageType === 'recommendation' && msg.metadata?.cards" class="card-list">
               <RecommendCard
@@ -173,7 +188,7 @@ onMounted(() => {
             </div>
 
             <!-- Favorites cards -->
-            <div v-else-if="(msg.messageType === 'favorites' || msg.messageType === 'recommendation') && msg.metadata?.cards" class="card-list">
+            <div v-if="msg.messageType === 'favorites' && msg.metadata?.cards" class="card-list">
               <RecommendCard
                 v-for="(card, ci) in msg.metadata.cards.slice(0, 5)"
                 :key="ci"
@@ -190,8 +205,9 @@ onMounted(() => {
             </div>
 
             <!-- Order summary card -->
-            <div v-else-if="msg.messageType === 'order_summary' && msg.metadata" class="card-list">
+            <div v-if="msg.messageType === 'order_summary' && msg.metadata" class="card-list">
               <OrderSummaryCard
+                :order-id="msg.metadata.orderId"
                 :property-name="msg.metadata.propertyName"
                 :location="msg.metadata.location"
                 :floor-plan-type="msg.metadata.floorPlanType"
@@ -202,15 +218,6 @@ onMounted(() => {
                 :customer-phone="msg.metadata.customerPhone"
                 :order-no="msg.metadata.orderNo"
               />
-            </div>
-
-            <!-- Text content -->
-            <div v-else class="bubble-text">
-              <span v-if="msg.content.length <= 500 || msg.expanded">{{ msg.content }}</span>
-              <span v-else>{{ msg.content.substring(0, 500) + '...' }}</span>
-              <button v-if="msg.content.length > 500" class="toggle-btn" @click="chatStore.toggleExpand(index)">
-                {{ msg.expanded ? '收起' : '展开全文' }}
-              </button>
             </div>
           </template>
 
