@@ -13,8 +13,7 @@ import com.fangyicha.mapper.AiMessageMapper;
 import com.fangyicha.mapper.AiSessionMapper;
 import com.fangyicha.service.AiChatService;
 import com.fangyicha.service.AiSessionService;
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -39,16 +38,18 @@ public class AiController {
     private final AiSessionService aiSessionService;
     private final AiSessionMapper sessionMapper;
     private final AiMessageMapper messageMapper;
-    private final Gson gson = new Gson();
+    private final ObjectMapper objectMapper;
 
     public AiController(AiChatService aiChatService,
                          AiSessionService aiSessionService,
                          AiSessionMapper sessionMapper,
-                         AiMessageMapper messageMapper) {
+                         AiMessageMapper messageMapper,
+                         ObjectMapper objectMapper) {
         this.aiChatService = aiChatService;
         this.aiSessionService = aiSessionService;
         this.sessionMapper = sessionMapper;
         this.messageMapper = messageMapper;
+        this.objectMapper = objectMapper;
     }
 
     /**
@@ -147,7 +148,7 @@ public class AiController {
             // Parse metadata JSON
             if (msg.getMetadata() != null && !msg.getMetadata().isEmpty()) {
                 try {
-                    dto.setMetadata(JsonParser.parseString(msg.getMetadata()));
+                    dto.setMetadata(objectMapper.readTree(msg.getMetadata()));
                 } catch (Exception e) {
                     dto.setMetadata(msg.getMetadata());
                 }

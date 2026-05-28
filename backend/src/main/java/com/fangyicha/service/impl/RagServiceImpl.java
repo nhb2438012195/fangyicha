@@ -45,10 +45,10 @@ public class RagServiceImpl implements RagService {
     private static final float MIN_SCORE_THRESHOLD = 0.15f;
     private static final int EMBEDDING_DIM = 1024;
 
-    @Value("${spring.ai.openai.api-key:}")
+    @Value("${spring.ai.deepseek.api-key:}")
     private String apiKey;
 
-    @Value("${spring.ai.openai.base-url:https://api.deepseek.com/v1}")
+    @Value("${spring.ai.deepseek.base-url:https://api.deepseek.com/v1}")
     private String baseUrl;
 
     private Directory directory;
@@ -63,7 +63,7 @@ public class RagServiceImpl implements RagService {
 
             directory = FSDirectory.open(Path.of(INDEX_DIR));
             IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
-            config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+            config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
             writer = new IndexWriter(directory, config);
             writer.commit();
             log.info("Lucene索引初始化完成: {}", INDEX_DIR);
@@ -326,16 +326,18 @@ public class RagServiceImpl implements RagService {
      */
     private float[] extractEmbeddingFromDoc(Document doc, int docId, IndexSearcher searcher) {
         try {
-            // Attempt to get vector via FloatVectorValues
             for (var leaf : searcher.getIndexReader().leaves()) {
                 FloatVectorValues vectorValues = leaf.reader().getFloatVectorValues("embedding");
-                if (vectorValues != null) {
-                    int docIndex = docId - leaf.docBase;
-                    if (docIndex >= 0 && docIndex < leaf.reader().maxDoc()) {
-                        // We need to advance to the correct doc
-                        // FloatVectorValues iterates over docs that have this vector field
-                        // Since many docs may not have the field, we try a simpler approach
-                    }
+                if (vectorValues == null) {
+                    continue;
+                }
+                int docIndex = docId - leaf.docBase;
+                if (docIndex < 0 || docIndex >= leaf.reader().maxDoc()) {
+                    continue;
+                }
+                int advanced = vectorValues.advance(docIndex);
+                if (advanced == docIndex) {
+                    return vectorValues.vectorValue().clone();
                 }
             }
         } catch (Exception e) {
