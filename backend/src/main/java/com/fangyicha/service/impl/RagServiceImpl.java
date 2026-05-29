@@ -63,7 +63,7 @@ public class RagServiceImpl implements RagService {
 
             directory = FSDirectory.open(Path.of(INDEX_DIR));
             IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
-            config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+            config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
             writer = new IndexWriter(directory, config);
             writer.commit();
             log.info("Lucene索引初始化完成: {}", INDEX_DIR);

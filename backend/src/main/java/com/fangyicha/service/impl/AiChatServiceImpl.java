@@ -149,6 +149,7 @@ public class AiChatServiceImpl implements AiChatService {
                                       String userMessage, Long customerId,
                                       List<RagService.RagResult> ragResults) {
         ToolResultHolder.clear();
+        com.fangyicha.ai.tool.SessionIdHolder.set(sessionId);
         try {
             String userContext = buildUserContext(customerId);
             String systemPrompt = buildSystemPrompt(ragResults, userContext);
@@ -192,6 +193,7 @@ public class AiChatServiceImpl implements AiChatService {
             throw e;
         } finally {
             ToolResultHolder.clear();
+            com.fangyicha.ai.tool.SessionIdHolder.clear();
         }
     }
 

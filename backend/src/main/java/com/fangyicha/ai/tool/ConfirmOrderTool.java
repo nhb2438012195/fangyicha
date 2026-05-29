@@ -23,10 +23,12 @@ public class ConfirmOrderTool {
 
     @Bean
     public ToolCallback confirmOrderToolCallback() {
-        return FunctionToolCallback.builder("confirm_order", (String input, org.springframework.ai.chat.model.ToolContext ctx) -> {
+        return FunctionToolCallback.builder("confirm_order", (Map<String, Object> arguments, org.springframework.ai.chat.model.ToolContext ctx) -> {
             try {
-                Long customerId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                 Map<String, Object> args = new HashMap<>();
+                Long sessionId = SessionIdHolder.get();
+                if (sessionId != null) args.put("_sessionId", sessionId);
+                Long customerId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                 FunctionCallService.FunctionResult result = functionCallService.execute("confirm_order", args, customerId);
                 Map<String, Object> data = new HashMap<>();
                 data.put("_type", "confirm_order");
@@ -35,11 +37,12 @@ public class ConfirmOrderTool {
                 ToolResultHolder.set(data);
                 return objectMapper.writeValueAsString(result.getData() != null ? result.getData() : Map.of("message", result.getMessage()));
             } catch (Exception e) {
-                return "{\"error\": \"确认订单失败\"}";
+                return "{\"error\":\"确认订单失败\"}";
             }
         })
-        .description("确认购房订单。用户说「确认」或「提交订单」时调用，将之前的订单预览正式创建为订单")
-        .inputType(String.class)
+        .description("确认购房订单。用户说「确认」「是的」「提交」时调用")
+        .inputType(Map.class)
+        .inputSchema("{\"type\":\"object\",\"properties\":{}}")
         .build();
     }
 }

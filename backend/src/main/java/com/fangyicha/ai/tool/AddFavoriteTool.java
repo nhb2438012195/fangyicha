@@ -1,6 +1,5 @@
 package com.fangyicha.ai.tool;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fangyicha.service.FunctionCallService;
 import org.springframework.ai.tool.ToolCallback;
@@ -23,9 +22,9 @@ public class AddFavoriteTool {
 
     @Bean
     public ToolCallback addFavoriteToolCallback() {
-        return FunctionToolCallback.builder("add_favorite", (String input, org.springframework.ai.chat.model.ToolContext ctx) -> {
+        return FunctionToolCallback.builder("add_favorite", (Map<String, Object> arguments, org.springframework.ai.chat.model.ToolContext ctx) -> {
             try {
-                Map<String, Object> args = objectMapper.readValue(input, new TypeReference<Map<String, Object>>() {});
+                Map<String, Object> args = arguments != null ? arguments : Map.of();
                 Long customerId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                 FunctionCallService.FunctionResult result = functionCallService.execute("add_favorite", args, customerId);
                 Map<String, Object> data = new java.util.HashMap<>();
@@ -35,11 +34,12 @@ public class AddFavoriteTool {
                 ToolResultHolder.set(data);
                 return objectMapper.writeValueAsString(Map.of("success", result.isSuccess(), "message", result.getMessage()));
             } catch (Exception e) {
-                return "{\"error\": \"执行收藏操作失败\"}";
+                return "{\"error\":\"执行收藏操作失败\"}";
             }
         })
-        .description("向收藏夹中添加一个楼盘。用户说「帮我收藏XX」或「收藏这个楼盘」时调用")
-        .inputType(String.class)
+        .description("收藏一个楼盘到收藏夹。调用时propertyName参数必填，值为楼盘名称")
+        .inputType(java.util.Map.class)
+        .inputSchema("{\"type\":\"object\",\"properties\":{\"propertyName\":{\"type\":\"string\",\"description\":\"楼盘名称\"}},\"required\":[\"propertyName\"]}")
         .build();
     }
 }

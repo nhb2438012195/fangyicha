@@ -1,6 +1,5 @@
 package com.fangyicha.ai.tool;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fangyicha.service.FunctionCallService;
 import org.springframework.ai.tool.ToolCallback;
@@ -24,11 +23,11 @@ public class ViewFavoritesTool {
 
     @Bean
     public ToolCallback viewFavoritesToolCallback() {
-        return FunctionToolCallback.builder("view_favorites", (String input, org.springframework.ai.chat.model.ToolContext ctx) -> {
+        return FunctionToolCallback.builder("view_favorites", (Map<String, Object> arguments, org.springframework.ai.chat.model.ToolContext ctx) -> {
             try {
                 Map<String, Object> args = new HashMap<>();
-                if (input != null && !input.isEmpty() && !"{}".equals(input)) {
-                    args = objectMapper.readValue(input, new TypeReference<Map<String, Object>>() {});
+                if (arguments != null && !arguments.isEmpty()) {
+                    args.putAll(arguments);
                 }
                 Long customerId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                 FunctionCallService.FunctionResult result = functionCallService.execute("view_favorites", args, customerId);
@@ -39,11 +38,12 @@ public class ViewFavoritesTool {
                 ToolResultHolder.set(data);
                 return objectMapper.writeValueAsString(result.getData() != null ? result.getData() : Map.of("message", result.getMessage()));
             } catch (Exception e) {
-                return "{\"error\": \"查看收藏失败\"}";
+                return "{\"error\":\"查看收藏失败\"}";
             }
         })
-        .description("查看用户的收藏楼盘列表。用户说「看看我的收藏」或「我的收藏有什么」时调用")
-        .inputType(String.class)
+        .description("查看用户的收藏楼盘列表。用户说「看看我的收藏」时调用")
+        .inputType(java.util.Map.class)
+        .inputSchema("{\"type\":\"object\",\"properties\":{\"filter\":{\"type\":\"string\",\"description\":\"可选的筛选关键词\"}}}")
         .build();
     }
 }

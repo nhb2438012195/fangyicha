@@ -3,7 +3,7 @@ spring:
     url: jdbc:mysql://localhost:3306/fangyicha?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: admin
+    password: nhb2438012195
   sql:
     init:
       mode: never
